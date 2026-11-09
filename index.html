@@ -1,1 +1,660 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inter de KTC — Club Deportivo y Social | Maipú</title>
+  <meta name="description" content="Club Deportivo y Social Inter de KTC. Pasión, hermandad y gestión profesional. Paradero 14, Maipú, Chile.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base:   '#0B111A',
+            panel:  '#131C26',
+            line:   '#1E2A38',
+            verde:  '#00A651',
+            rojo:   '#CE2B37',
+            blanco: '#F2F2F2',
+            muted:  '#8A9BB0',
+          },
+          fontFamily: {
+            display: ['"Barlow Condensed"', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #0B111A; color: #E6EDF5; font-family: 'Inter', sans-serif; }
+
+    /* Franja tricolor (motivo de marca) */
+    .tricolor { background: linear-gradient(90deg, #00A651 0 33.33%, #F2F2F2 33.33% 66.66%, #CE2B37 66.66% 100%); }
+    .tricolor-v { background: linear-gradient(180deg, #00A651 0 33.33%, #F2F2F2 33.33% 66.66%, #CE2B37 66.66% 100%); }
+
+    /* Hero */
+    .hero-bg {
+      background-color: #0B111A;
+      background-image:
+        radial-gradient(ellipse at 15% 110%, rgba(0,166,81,0.18) 0%, rgba(11,17,26,0) 50%),
+        radial-gradient(ellipse at 85% 110%, rgba(206,43,55,0.18) 0%, rgba(11,17,26,0) 50%),
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: auto, auto, 48px 48px, 48px 48px;
+    }
+    .pitch-lines { position: absolute; inset: 0; opacity: 0.14; pointer-events: none; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* Dashboard */
+    .stat-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background: linear-gradient(90deg, var(--accent), transparent); }
+    .label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: #8A9BB0; font-weight: 500; }
+    .num { font-variant-numeric: tabular-nums; }
+    .glow-verde { box-shadow: 0 0 0 1px rgba(0,166,81,0.4), 0 0 28px rgba(0,166,81,0.15); }
+
+    @keyframes pulse-dot { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.4; transform:scale(.7);} }
+    .pulse { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+    .header-blur { background: rgba(11,17,26,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+    .bar-fill { width: 0; transition: width 1.4s cubic-bezier(.22,.61,.36,1) .3s; }
+    .is-visible .bar-fill { width: var(--w); }
+
+    /* Texto con borde (outline) para el hero */
+    .text-outline { -webkit-text-stroke: 1.5px rgba(242,242,242,0.85); color: transparent; }
+
+    /* Logos de auspiciadores */
+    .sponsor img { max-height: 72px; width: auto; filter: grayscale(100%) brightness(1.4); opacity: .7; transition: all .3s; }
+    .sponsor:hover img { filter: none; opacity: 1; transform: scale(1.04); }
+  </style>
+</head>
+
+<body class="font-body antialiased">
+
+  <!-- Franja superior tricolor -->
+  <div class="tricolor h-1 fixed top-0 inset-x-0 z-[60]"></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="fixed top-1 inset-x-0 z-50 header-blur border-b border-line">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <a href="#inicio" class="flex items-center gap-3 shrink-0">
+        <img src="logointerktc.png" alt="Inter de KTC" class="h-10 w-auto">
+        <div class="hidden sm:block leading-none">
+          <div class="font-display font-700 font-bold text-xl tracking-wide uppercase">Inter de KTC</div>
+          <div class="label !text-[0.58rem]">Club Deportivo y Social</div>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 font-display text-base uppercase tracking-[0.12em] font-600 font-semibold">
+        <a href="#inicio"    class="text-muted hover:text-blanco transition-colors">Inicio</a>
+        <a href="#datos"     class="text-muted hover:text-blanco transition-colors">Datos</a>
+        <a href="#mvp"       class="text-muted hover:text-blanco transition-colors">MVP</a>
+        <a href="#directiva" class="text-muted hover:text-blanco transition-colors">Directiva</a>
+        <a href="#vision"    class="text-muted hover:text-blanco transition-colors">Visión</a>
+        <a href="#partners"  class="text-muted hover:text-blanco transition-colors">Partners</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#mvp" class="hidden sm:inline-flex items-center gap-2 bg-verde text-base font-display font-bold uppercase tracking-[0.12em] text-sm px-4 py-2 hover:bg-blanco transition-colors">
+          <span class="w-1.5 h-1.5 bg-base pulse"></span>
+          Próximo partido
+        </a>
+        <button id="menuBtn" aria-label="Abrir menú" class="md:hidden p-2 border border-line text-muted hover:text-blanco hover:border-blanco transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="md:hidden hidden border-t border-line bg-panel">
+      <nav class="px-4 py-4 flex flex-col gap-1 font-display text-lg uppercase tracking-[0.1em] font-semibold">
+        <a href="#inicio"    class="mobile-link py-2 border-b border-line/60 text-muted hover:text-blanco">Inicio</a>
+        <a href="#datos"     class="mobile-link py-2 border-b border-line/60 text-muted hover:text-blanco">Datos</a>
+        <a href="#mvp"       class="mobile-link py-2 border-b border-line/60 text-muted hover:text-blanco">MVP</a>
+        <a href="#directiva" class="mobile-link py-2 border-b border-line/60 text-muted hover:text-blanco">Directiva</a>
+        <a href="#vision"    class="mobile-link py-2 border-b border-line/60 text-muted hover:text-blanco">Visión</a>
+        <a href="#partners"  class="mobile-link py-2 text-muted hover:text-blanco">Partners</a>
+        <a href="#mvp" class="mobile-link mt-3 inline-flex justify-center items-center gap-2 bg-verde text-base font-bold px-4 py-3">Próximo partido</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section id="inicio" class="hero-bg relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <svg class="pitch-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="#F2F2F2" stroke-width="2">
+        <rect x="100" y="60" width="1000" height="680"/>
+        <line x1="600" y1="60" x2="600" y2="740"/>
+        <circle cx="600" cy="400" r="110"/>
+        <circle cx="600" cy="400" r="4" fill="#F2F2F2"/>
+        <rect x="100" y="200" width="180" height="400"/>
+        <rect x="100" y="300" width="60" height="200"/>
+        <rect x="920" y="200" width="180" height="400"/>
+        <rect x="1040" y="300" width="60" height="200"/>
+        <path d="M280 320 A110 110 0 0 1 280 480"/>
+        <path d="M920 320 A110 110 0 0 0 920 480"/>
+      </g>
+    </svg>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+      <div class="max-w-5xl">
+        <div class="reveal flex items-center gap-3 mb-8">
+          <span class="tricolor h-[3px] w-12"></span>
+          <span class="label !text-blanco">Temporada 2026 · Club Deportivo y Social</span>
+        </div>
+
+        <h1 class="reveal reveal-delay-1 font-display font-extrabold uppercase leading-[0.86] text-[4.2rem] sm:text-8xl lg:text-[9rem] tracking-tight">
+          <span class="block text-blanco">Locura,</span>
+          <span class="block text-verde">pasión</span>
+          <span class="block text-outline">y hermandad.</span>
+        </h1>
+
+        <p class="reveal reveal-delay-2 mt-10 text-lg sm:text-xl text-muted max-w-2xl leading-relaxed">
+          Somos un equipo de barrio que juega con el alma y se gestiona como una institución. Aquí nadie llega a jugar: llega a <span class="text-blanco font-medium">pertenecer</span>.
+        </p>
+
+        <div class="reveal reveal-delay-3 mt-10 flex flex-col sm:flex-row gap-4">
+          <a href="#datos" class="inline-flex justify-center items-center gap-3 bg-verde text-base font-display font-bold uppercase tracking-[0.12em] text-lg px-8 py-4 hover:bg-blanco transition-colors">
+            Ver nuestra gestión
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#club" class="inline-flex justify-center items-center gap-3 border border-line text-blanco font-display font-semibold uppercase tracking-[0.12em] text-lg px-8 py-4 hover:border-rojo hover:text-rojo transition-colors">
+            Conocer el club
+          </a>
+        </div>
+
+        <div class="reveal reveal-delay-4 mt-16 grid grid-cols-3 gap-px bg-line border border-line max-w-xl">
+          <div class="bg-base px-4 py-3"><div class="label">Fundación</div><div class="font-display font-bold text-2xl num">2024</div></div>
+          <div class="bg-base px-4 py-3"><div class="label">Rendimiento</div><div class="font-display font-bold text-2xl num text-verde">71.7%</div></div>
+          <div class="bg-base px-4 py-3"><div class="label">Meta 2030</div><div class="font-display font-bold text-2xl num text-rojo">ANFA</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted">
+      <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+    </div>
+  </section>
+
+  <!-- ================= EL CLUB / IDENTIDAD ================= -->
+  <section id="club" class="py-24 border-t border-line bg-base">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div class="reveal lg:col-span-5">
+        <div class="label text-verde mb-3">00 — Identidad</div>
+        <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">
+          Un barrio.<br>Una camiseta.<br><span class="text-rojo">Una familia.</span>
+        </h2>
+        <div class="tricolor h-[3px] w-24 mt-8"></div>
+      </div>
+
+      <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-px bg-line border border-line">
+        <div class="reveal bg-panel p-7">
+          <div class="label mb-3">Nuestra casa</div>
+          <div class="font-display font-bold text-3xl uppercase leading-none">Paradero 14,<br>Maipú</div>
+          <p class="text-muted text-sm leading-relaxed mt-4">Representamos a este barrio dentro y fuera de la cancha. Cada partido lo jugamos por la gente que nos vio nacer.</p>
+        </div>
+        <div class="reveal reveal-delay-1 bg-panel p-7">
+          <div class="label mb-3">Lo que nos distingue</div>
+          <div class="font-display font-bold text-3xl uppercase leading-none">Gestión<br>profesional</div>
+          <p class="text-muted text-sm leading-relaxed mt-4">Directiva con roles, finanzas transparentes, métricas de rendimiento y un plan a 2030. Amateur en categoría, no en método.</p>
+        </div>
+        <div class="reveal reveal-delay-2 bg-panel p-7">
+          <div class="label mb-3">Nuestro código</div>
+          <div class="font-display font-bold text-3xl uppercase leading-none">La camiseta<br>se gana</div>
+          <p class="text-muted text-sm leading-relaxed mt-4">No hay titulares por antigüedad ni amistad. Se gana en el entrenamiento, en la actitud y en el compromiso con el grupo.</p>
+        </div>
+        <div class="reveal reveal-delay-3 bg-panel p-7">
+          <div class="label mb-3">Nuestra locura</div>
+          <div class="font-display font-bold text-3xl uppercase leading-none">Pasión<br>sin filtro</div>
+          <p class="text-muted text-sm leading-relaxed mt-4">Gritamos los goles como finales, sufrimos juntos las derrotas y celebramos juntos la vida. Eso es ser Inter.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section id="datos" class="py-24 border-t border-line bg-panel/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="label text-verde mb-3">01 — Dashboard de gestión</div>
+          <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Los números<br>hablan por nosotros</h2>
+        </div>
+        <p class="text-muted max-w-md text-sm leading-relaxed">Cada partido, cada peso y cada hora de trabajo comunitario queda registrado. Transparencia como estándar, no como excepción.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+        <div class="reveal stat-card relative bg-panel p-7" style="--accent:#00A651">
+          <div class="flex items-start justify-between mb-8">
+            <span class="label">Partidos jugados</span>
+            <svg class="w-6 h-6 text-verde" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linejoin="round" d="M12 7l3.5 2.5-1.3 4h-4.4L8.5 9.5 12 7zM12 3v4M5.4 6.4l3.1 3.1M18.6 6.4l-3.1 3.1M4 14.5l5.8-1M20 14.5l-5.8-1M9 20l1.2-5.5M15 20l-1.2-5.5"/></svg>
+          </div>
+          <div class="font-display font-extrabold text-7xl num leading-none">75</div>
+          <div class="mt-3 text-xs text-muted">Mar 2024 — Ago 2024</div>
+        </div>
+
+        <div class="reveal reveal-delay-1 stat-card relative bg-panel p-7" style="--accent:#F2F2F2">
+          <div class="flex items-start justify-between mb-8">
+            <span class="label">Rendimiento global</span>
+            <svg class="w-6 h-6 text-blanco" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 17l6-6 4 4 8-8M14 7h7v7"/></svg>
+          </div>
+          <div class="font-display font-extrabold text-7xl num leading-none text-blanco">71.7<span class="text-4xl">%</span></div>
+          <div class="mt-3 text-xs text-muted">Victorias + Empates</div>
+          <div class="mt-4 h-1 bg-line w-full"><div class="bar-fill h-full bg-verde" style="--w:71.7%"></div></div>
+        </div>
+
+        <div class="reveal reveal-delay-2 stat-card relative bg-panel p-7" style="--accent:#CE2B37">
+          <div class="flex items-start justify-between mb-8">
+            <span class="label">Impacto social</span>
+            <svg class="w-6 h-6 text-rojo" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.6-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.4-7 10-7 10z"/></svg>
+          </div>
+          <div class="font-display font-extrabold text-7xl num leading-none">+3.300</div>
+          <div class="mt-3 text-xs text-muted">Horas de impacto comunitario</div>
+        </div>
+
+        <div class="reveal reveal-delay-3 stat-card relative bg-panel p-7" style="--accent:#00A651">
+          <div class="flex items-start justify-between mb-8">
+            <span class="label">Saldo operativo</span>
+            <svg class="w-6 h-6 text-verde" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12"/><circle cx="12" cy="12" r="2.5"/><path d="M7 9v6M17 9v6"/></svg>
+          </div>
+          <div class="font-display font-extrabold text-7xl num leading-none text-verde">$118.100</div>
+          <div class="mt-3 text-xs text-muted flex items-center gap-2"><span class="w-1.5 h-1.5 bg-verde pulse"></span>Transparencia financiera</div>
+        </div>
+      </div>
+
+      <!-- ===== ANÁLISIS DERIVADO ===== -->
+      <div class="reveal mt-16 mb-8">
+        <div class="label text-rojo mb-3">01.b — Lectura de los datos</div>
+        <h3 class="font-display font-bold uppercase text-3xl sm:text-4xl tracking-tight">Lo que los números dicen entre líneas</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line">
+        <div class="reveal bg-panel p-7">
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display font-extrabold text-5xl num text-verde">12,5</span>
+            <span class="label">partidos / mes</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-xl mt-3">Ritmo semiprofesional</div>
+          <p class="text-muted text-sm leading-relaxed mt-2">75 partidos en 6 meses equivalen a casi 3 por semana. Un plantel amateur que sostiene ese calendario tiene profundidad de banca, logística y compromiso de asistencia poco comunes en la categoría.</p>
+        </div>
+        <div class="reveal reveal-delay-1 bg-panel p-7">
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display font-extrabold text-5xl num text-blanco">≈54</span>
+            <span class="label">partidos sin perder</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-xl mt-3">Solidez competitiva</div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Un 71,7% de rendimiento sobre 75 encuentros se traduce en cerca de 54 partidos invictos y solo unos 21 tropiezos. 7 de cada 10 veces, Inter sale de la cancha con puntos.</p>
+        </div>
+        <div class="reveal reveal-delay-2 bg-panel p-7">
+          <div class="flex items-baseline gap-2 mb-2">
+            <span class="font-display font-extrabold text-5xl num text-rojo">44</span>
+            <span class="label">horas sociales / partido</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-xl mt-3">Más que fútbol</div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Por cada partido disputado, el club generó 44 horas de impacto en el barrio: 3.300 horas equivalen a más de un año y medio de trabajo de una persona a tiempo completo. El fútbol es la excusa; la comunidad, el fin.</p>
+        </div>
+      </div>
+      <p class="text-[0.7rem] text-muted mt-3">* Indicadores derivados a partir de las cifras oficiales del club. Valores aproximados.</p>
+    </div>
+  </section>
+
+  <!-- ================= PRÓXIMO PARTIDO + MVP ================= -->
+  <section id="mvp" class="py-24 border-t border-line bg-base">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal mb-12">
+        <div class="label text-verde mb-3">02 — Competencia e incentivos</div>
+        <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Lo que viene<br>y lo que se gana</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Próximo partido -->
+        <div class="reveal relative bg-panel border border-line glow-verde p-8 flex flex-col">
+          <div class="flex items-center justify-between mb-8">
+            <span class="label !text-verde flex items-center gap-2"><span class="w-1.5 h-1.5 bg-verde pulse"></span>Próximo desafío</span>
+            <span class="label">Temporada 2026</span>
+          </div>
+
+          <div class="grid grid-cols-3 items-center gap-4 py-6 border-y border-line">
+            <div class="text-center">
+              <div class="mx-auto w-20 h-20 border border-verde flex items-center justify-center mb-3 p-2">
+                <img src="logointerktc.png" alt="Inter de KTC" class="max-h-full w-auto">
+              </div>
+              <div class="font-display font-bold text-xl uppercase leading-tight">Inter de KTC</div>
+              <div class="label mt-1">Local</div>
+            </div>
+            <div class="text-center"><div class="font-display font-extrabold text-5xl text-line">VS</div></div>
+            <div class="text-center">
+              <div class="mx-auto w-20 h-20 border border-line flex items-center justify-center mb-3 font-display text-3xl text-muted">?</div>
+              <div class="font-display font-bold text-xl uppercase leading-tight">Rival por confirmar</div>
+              <div class="label mt-1">Visita</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-px bg-line border border-line mt-6">
+            <div class="bg-panel p-4">
+              <div class="label mb-1">Día y hora</div>
+              <div class="font-display font-bold text-3xl">Sábado · 21:00</div>
+            </div>
+            <div class="bg-panel p-4">
+              <div class="label mb-1">Cancha</div>
+              <div class="font-display font-bold text-3xl leading-tight">Por confirmar</div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex items-center gap-3 text-xs text-muted">
+            <svg class="w-4 h-4 text-verde shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.5-6-11a6 6 0 1112 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>
+            Detalles del encuentro se publican en nuestro Instagram. Indumentaria oficial obligatoria.
+          </div>
+        </div>
+
+        <!-- MVP · Barbería Madrid -->
+        <div class="reveal reveal-delay-1 relative bg-panel border border-line p-8 flex flex-col overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-48 h-48 border border-rojo/30 rotate-45"></div>
+          <div class="absolute -right-4 -top-4 w-48 h-48 border border-rojo/20 rotate-45"></div>
+
+          <div class="flex items-center justify-between mb-8 relative">
+            <span class="label !text-rojo">Sistema de incentivos</span>
+            <span class="label">Mensual</span>
+          </div>
+
+          <div class="flex items-start gap-6 relative">
+            <!-- Logo Barbería Madrid -->
+            <a href="https://www.instagram.com/barberiaa.madrid" target="_blank" rel="noopener" aria-label="Barbería Madrid en Instagram"
+               class="w-24 h-24 shrink-0 border border-line bg-base flex items-center justify-center p-2 hover:border-rojo transition-colors">
+              <img src="barberlogo.jpeg" alt="Barbería Madrid" class="max-h-full max-w-full object-contain">
+            </a>
+            <div>
+              <div class="font-display font-bold uppercase text-4xl leading-none">MVP del Mes</div>
+              <p class="mt-3 text-muted text-sm leading-relaxed">
+                Cuidado personal total en <a href="https://www.instagram.com/barberiaa.madrid" target="_blank" rel="noopener" class="text-blanco font-semibold hover:text-rojo transition-colors">Barbería Madrid</a>. El jugador más valioso de cada mes, elegido por rendimiento, compromiso y actitud, se lleva corte, barba y perfilado premium.
+              </p>
+            </div>
+          </div>
+
+          <!-- Barra de navaja -->
+          <div class="mt-8 h-2 w-full" style="background: repeating-linear-gradient(135deg, #CE2B37 0 12px, #F2F2F2 12px 24px, #00A651 24px 36px);"></div>
+
+          <div class="grid grid-cols-3 gap-px bg-line border border-line mt-8">
+            <div class="bg-panel p-4"><div class="label mb-1">Criterio</div><div class="font-display font-semibold text-xl uppercase">Rendimiento</div></div>
+            <div class="bg-panel p-4"><div class="label mb-1">Criterio</div><div class="font-display font-semibold text-xl uppercase">Asistencia</div></div>
+            <div class="bg-panel p-4"><div class="label mb-1">Criterio</div><div class="font-display font-semibold text-xl uppercase">Actitud</div></div>
+          </div>
+
+          <div class="mt-6 flex items-center justify-between text-xs">
+            <span class="text-muted">Alianza oficial · Barbería Madrid × Inter de KTC</span>
+            <a href="https://www.instagram.com/barberiaa.madrid" target="_blank" rel="noopener" class="font-display text-rojo tracking-[0.15em] uppercase font-semibold hover:text-blanco transition-colors">@barberiaa.madrid</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ORGANIGRAMA ================= -->
+  <section id="directiva" class="py-24 border-t border-line bg-panel/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="label text-verde mb-3">03 — Organigrama directivo</div>
+          <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Cuatro pilares<br>de gestión</h2>
+        </div>
+        <p class="text-muted max-w-md text-sm leading-relaxed">Una estructura directiva pensada como institución, no como grupo de amigos. Roles definidos, responsabilidades claras.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+        <div class="reveal bg-panel p-7 hover:bg-[#182332] transition-colors">
+          <div class="flex items-center justify-between mb-10">
+            <span class="font-display font-bold text-verde text-2xl">01</span>
+            <svg class="w-7 h-7 text-verde" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3 class="font-display font-bold uppercase text-3xl leading-[0.95]">Dirección<br>Ejecutiva</h3>
+          <div class="h-[2px] w-10 bg-verde my-4"></div>
+          <p class="text-muted text-sm leading-relaxed">Visión a largo plazo. Define el rumbo institucional, representa al club y toma las decisiones estratégicas.</p>
+        </div>
+
+        <div class="reveal reveal-delay-1 bg-panel p-7 hover:bg-[#182332] transition-colors">
+          <div class="flex items-center justify-between mb-10">
+            <span class="font-display font-bold text-blanco text-2xl">02</span>
+            <svg class="w-7 h-7 text-blanco" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="4"/></svg>
+          </div>
+          <h3 class="font-display font-bold uppercase text-3xl leading-[0.95]">Ingeniería<br>de Proyectos</h3>
+          <div class="h-[2px] w-10 bg-blanco my-4"></div>
+          <p class="text-muted text-sm leading-relaxed">Optimización operacional. Planificación, logística, indicadores y mejora continua de cada proceso del club.</p>
+        </div>
+
+        <div class="reveal reveal-delay-2 bg-panel p-7 hover:bg-[#182332] transition-colors">
+          <div class="flex items-center justify-between mb-10">
+            <span class="font-display font-bold text-rojo text-2xl">03</span>
+            <svg class="w-7 h-7 text-rojo" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9h3l8-4v14l-8-4H4zM7 9v6M18 10a3 3 0 010 4M20 8a6 6 0 010 8"/></svg>
+          </div>
+          <h3 class="font-display font-bold uppercase text-3xl leading-[0.95]">Comunica-<br>ciones</h3>
+          <div class="h-[2px] w-10 bg-rojo my-4"></div>
+          <p class="text-muted text-sm leading-relaxed">Transparencia y periodismo barrial. Cobertura de partidos, rendición de cuentas y voz del club hacia la comunidad.</p>
+        </div>
+
+        <div class="reveal reveal-delay-3 bg-panel p-7 hover:bg-[#182332] transition-colors">
+          <div class="flex items-center justify-between mb-10">
+            <span class="font-display font-bold text-verde text-2xl">04</span>
+            <svg class="w-7 h-7 text-verde" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 19a6 6 0 0112 0M14 18a4.5 4.5 0 017 0"/></svg>
+          </div>
+          <h3 class="font-display font-bold uppercase text-3xl leading-[0.95]">Bienestar<br>Social</h3>
+          <div class="h-[2px] w-10 bg-verde my-4"></div>
+          <p class="text-muted text-sm leading-relaxed">Conexión humana y pertenencia. Acompañamiento al plantel, vínculo con el barrio y cultura de equipo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VISIÓN 2030 ================= -->
+  <section id="vision" class="py-24 border-t border-line bg-base overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal mb-16">
+        <div class="label text-rojo mb-3">04 — Hoja de ruta</div>
+        <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Visión 2030</h2>
+        <p class="text-muted max-w-xl text-sm leading-relaxed mt-4">De la cancha de barrio a la institución formal. Un plan por etapas, con hitos medibles.</p>
+      </div>
+
+      <!-- Desktop -->
+      <div class="hidden lg:block relative">
+        <div class="tricolor absolute top-5 left-0 right-0 h-[2px]"></div>
+        <div class="grid grid-cols-5 gap-6">
+          <div class="reveal relative pt-14">
+            <div class="absolute top-3 left-0 w-5 h-5 bg-base border-2 border-verde"></div>
+            <div class="font-display font-extrabold text-5xl num text-verde">2024</div>
+            <div class="font-display font-semibold uppercase text-xl mt-1">Fundación</div>
+            <p class="text-muted text-xs leading-relaxed mt-2">Nace Inter de KTC en el Paradero 14. Primer plantel, primera camiseta, primeros 75 partidos.</p>
+          </div>
+          <div class="reveal reveal-delay-1 relative pt-14">
+            <div class="absolute top-3 left-0 w-5 h-5 bg-base border-2 border-verde"></div>
+            <div class="font-display font-extrabold text-5xl num">2025</div>
+            <div class="font-display font-semibold uppercase text-xl mt-1">Consolidación</div>
+            <p class="text-muted text-xs leading-relaxed mt-2">Estructura directiva, sistema de incentivos y transparencia financiera operativa.</p>
+          </div>
+          <div class="reveal reveal-delay-2 relative pt-14">
+            <div class="absolute top-3 left-0 w-5 h-5 bg-blanco border-2 border-blanco"></div>
+            <div class="font-display font-extrabold text-5xl num text-blanco">2026</div>
+            <div class="font-display font-semibold uppercase text-xl mt-1">Formalización Jurídica</div>
+            <p class="text-muted text-xs leading-relaxed mt-2">Personalidad jurídica como club deportivo y social. Acceso a fondos y alianzas institucionales.</p>
+          </div>
+          <div class="reveal reveal-delay-3 relative pt-14">
+            <div class="absolute top-3 left-0 w-5 h-5 bg-base border-2 border-rojo"></div>
+            <div class="font-display font-extrabold text-5xl num">2027</div>
+            <div class="font-display font-semibold uppercase text-xl mt-1">Escuela Infantil</div>
+            <p class="text-muted text-xs leading-relaxed mt-2">Apertura de la escuela formativa para niños y niñas del barrio. Semillero propio.</p>
+          </div>
+          <div class="reveal reveal-delay-4 relative pt-14">
+            <div class="absolute top-3 left-0 w-5 h-5 bg-rojo border-2 border-rojo"></div>
+            <div class="font-display font-extrabold text-5xl num text-rojo">2030</div>
+            <div class="font-display font-semibold uppercase text-xl mt-1">ANFA</div>
+            <p class="text-muted text-xs leading-relaxed mt-2">Afiliación a la Asociación Nacional de Fútbol Amateur. Competencia oficial a nivel nacional.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Móvil / tablet -->
+      <div class="lg:hidden relative pl-10">
+        <div class="tricolor-v absolute left-[9px] top-2 bottom-2 w-[2px]"></div>
+        <div class="reveal relative pb-10">
+          <div class="absolute -left-10 top-1 w-5 h-5 bg-base border-2 border-verde"></div>
+          <div class="font-display font-extrabold text-4xl num text-verde">2024 <span class="font-semibold text-xl text-blanco uppercase ml-2">Fundación</span></div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Nace Inter de KTC en el Paradero 14. Primer plantel, primera camiseta, primeros 75 partidos.</p>
+        </div>
+        <div class="reveal relative pb-10">
+          <div class="absolute -left-10 top-1 w-5 h-5 bg-base border-2 border-verde"></div>
+          <div class="font-display font-extrabold text-4xl num">2025 <span class="font-semibold text-xl text-blanco uppercase ml-2">Consolidación</span></div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Estructura directiva, sistema de incentivos y transparencia financiera operativa.</p>
+        </div>
+        <div class="reveal relative pb-10">
+          <div class="absolute -left-10 top-1 w-5 h-5 bg-blanco border-2 border-blanco"></div>
+          <div class="font-display font-extrabold text-4xl num text-blanco">2026 <span class="font-semibold text-xl uppercase ml-2">Formalización Jurídica</span></div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Personalidad jurídica como club deportivo y social. Acceso a fondos y alianzas institucionales.</p>
+        </div>
+        <div class="reveal relative pb-10">
+          <div class="absolute -left-10 top-1 w-5 h-5 bg-base border-2 border-rojo"></div>
+          <div class="font-display font-extrabold text-4xl num">2027 <span class="font-semibold text-xl text-blanco uppercase ml-2">Escuela Infantil</span></div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Apertura de la escuela formativa para niños y niñas del barrio. Semillero propio.</p>
+        </div>
+        <div class="reveal relative">
+          <div class="absolute -left-10 top-1 w-5 h-5 bg-rojo border-2 border-rojo"></div>
+          <div class="font-display font-extrabold text-4xl num text-rojo">2030 <span class="font-semibold text-xl text-blanco uppercase ml-2">ANFA</span></div>
+          <p class="text-muted text-sm leading-relaxed mt-2">Afiliación a la Asociación Nacional de Fútbol Amateur. Competencia oficial a nivel nacional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AUSPICIADORES / PARTNERS ================= -->
+  <section id="partners" class="py-24 border-t border-line bg-panel/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <div class="label text-verde mb-3">05 — Auspiciadores y colaboradores</div>
+          <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Quienes creen<br>en el proyecto</h2>
+        </div>
+        <p class="text-muted max-w-md text-sm leading-relaxed">Marcas y emprendimientos que apuestan por el fútbol de barrio con gestión profesional.</p>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line">
+        <a href="https://www.instagram.com/barberiaa.madrid" target="_blank" rel="noopener" class="sponsor bg-panel p-8 flex flex-col items-center justify-center gap-4 hover:bg-[#182332] transition-colors">
+          <img src="barberlogo.jpeg" alt="Barbería Madrid">
+          <span class="label !text-[0.6rem]">Barbería Madrid</span>
+        </a>
+        <a href="https://www.instagram.com/groupinception" target="_blank" rel="noopener" class="sponsor bg-panel p-8 flex flex-col items-center justify-center gap-4 hover:bg-[#182332] transition-colors">
+          <img src="Inception.png" alt="Grupo Inception">
+          <span class="label !text-[0.6rem]">Grupo Inception</span>
+        </a>
+        <a href="https://www.instagram.com/farmaceus.delsol/?hl=es" target="_blank" rel="noopener" class="sponsor bg-panel p-8 flex flex-col items-center justify-center gap-4 hover:bg-[#182332] transition-colors">
+          <img src="Logo-Farmaceus.png" alt="Farmaceus del Sol">
+          <span class="label !text-[0.6rem]">Farmaceus</span>
+        </a>
+        <a href="https://neuroatletismo.com/" target="_blank" rel="noopener" class="sponsor bg-panel p-8 flex flex-col items-center justify-center gap-4 hover:bg-[#182332] transition-colors">
+          <img src="Logo.jpg" alt="Neuroatletismo">
+          <span class="label !text-[0.6rem]">Neuroatletismo</span>
+        </a>
+      </div>
+
+      <div class="reveal mt-8 border border-dashed border-line p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="font-display font-bold uppercase text-2xl">¿Quieres ser parte?</div>
+          <p class="text-muted text-sm mt-1">Hay espacio para nuevas marcas que quieran acompañar el camino a 2030.</p>
+        </div>
+        <a href="https://www.instagram.com/inter_de_ktc/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border border-verde text-verde font-display font-bold uppercase tracking-[0.12em] px-6 py-3 hover:bg-verde hover:text-base transition-colors shrink-0">
+          Escríbenos por Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-line bg-base">
+    <div class="tricolor h-[3px]"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+        <div>
+          <img src="logointerktc.png" alt="Inter de KTC" class="h-16 w-auto mb-5">
+          <p class="font-display font-bold uppercase text-2xl leading-[0.95]">
+            “La camiseta es una armadura<br><span class="text-verde">que se gana”</span>
+          </p>
+        </div>
+
+        <div>
+          <div class="label mb-5">Dirección</div>
+          <div class="flex items-start gap-3 text-sm text-muted">
+            <svg class="w-4 h-4 text-rojo shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-6-5.5-6-11a6 6 0 1112 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>
+            <div>
+              <div class="text-blanco font-medium">Paradero 14, Maipú</div>
+              <div>Región Metropolitana, Chile</div>
+              <div class="mt-2 text-xs">El club representa a este barrio dentro y fuera de la cancha.</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="label mb-5">Síguenos</div>
+          <a href="https://www.instagram.com/inter_de_ktc/" target="_blank" rel="noopener" class="inline-flex items-center gap-3 border border-line px-4 py-3 text-muted hover:text-blanco hover:border-blanco transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+            <span class="font-display font-semibold tracking-wider">@inter_de_ktc</span>
+          </a>
+          <div class="mt-8 grid grid-cols-2 gap-px bg-line border border-line text-center">
+            <div class="bg-base py-3"><div class="label">Rendimiento</div><div class="font-display font-bold text-xl text-verde num">71.7%</div></div>
+            <div class="bg-base py-3"><div class="label">Impacto</div><div class="font-display font-bold text-xl text-rojo num">+3.300 h</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-14 pt-6 border-t border-line flex flex-col sm:flex-row justify-between gap-3 text-xs text-muted">
+        <span>© <span id="year"></span> Club Deportivo y Social Inter de KTC. Todos los derechos reservados.</span>
+        <span class="font-display tracking-[0.2em] uppercase font-semibold">Locura · Pasión · Hermandad</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => {
+            const active = a.getAttribute('href') === '#' + entry.target.id;
+            a.classList.toggle('text-verde', active);
+            a.classList.toggle('text-muted', !active);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => navObserver.observe(s));
+  </script>
+</body>
+</html>
 
