@@ -939,15 +939,15 @@ reset();roles(true);hud();hint.innerHTML='';
 tarjeta('Copa KTC','Cuatro rondas. Apunta con el cursor, fija la potencia en la zona verde y, cuando atajes, elige hacia dónde lanzarte.','Jugar').then(main);
 })();
 </script>
-  <!-- ================= TEST: ÍNDICE DE CULTURA FUTBOLÍSTICA (ICF) ================= -->
+<!-- ================= TEST: ÍNDICE DE CULTURA FUTBOLÍSTICA (ICF) ================= -->
 <section id="test-futbol" class="py-24 border-t border-line bg-base relative overflow-hidden">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="text-center mb-10">
       <div class="label text-rojo mb-3">Laboratorio Táctico</div>
       <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Índice de Cultura Futbolística</h2>
-      <p class="text-muted mt-3 text-sm">5 preguntas rápidas para medir tu conocimiento y tu capacidad de razonar bajo presión.</p>
+      <p class="text-muted mt-3 text-sm">20 preguntas. 4 dimensiones. Descubre tu nivel real y qué debes mejorar.</p>
     </div>
-    <div id="tf-app" class="bg-panel border border-line p-6 sm:p-8 shadow-2xl"></div>
+    <div id="tf-app" class="bg-panel border border-line p-6 sm:p-8 shadow-2xl min-h-[400px]"></div>
   </div>
 </section>
 
@@ -955,171 +955,246 @@ tarjeta('Copa KTC','Cuatro rondas. Apunta con el cursor, fija la potencia en la 
 (() => {
   const app = document.getElementById('tf-app');
 
+  // Dimensiones
   const DIM = {
     H: { n: 'Historia', d: 'Campeones, hitos y premios.' },
     L: { n: 'Ligas', d: 'Torneos y clubes del mundo.' },
     T: { n: 'Táctica', d: 'Sistemas y decisiones de juego.' },
     R: { n: 'Reglamento', d: 'Leyes del juego.' }
   };
-  const FAC = { M: 'Memoria', A: 'Razonamiento' };
-  
-  // Banco de preguntas (agregué algunas de las tuyas, pero he dejado las más icónicas)
+
+  // Banco de 20 preguntas (5 por dimensión)
   const Q = [
-    ['H','M',1,'¿Qué país organizó y ganó el primer Mundial, en 1930?',['Uruguay','Argentina','Brasil','Italia'],'Uruguay fue sede y campeón: venció 4-2 a Argentina en la final.'],
-    ['H','M',2,'¿Quién ganó el primer Balón de Oro, en 1956?',['Stanley Matthews','Alfredo Di Stéfano','Raymond Kopa','Lev Yashin'],'Stanley Matthews fue el primero.'],
-    ['L','M',1,'¿Qué club ganó la Premier League 2015-16 con cuotas de 5000 a 1?',['Leicester City','Tottenham','West Ham','Southampton'],'Leicester City, dirigido por Claudio Ranieri, logró uno de los mayores batacazos.'],
-    ['L','A',1,'Con 3 puntos por victoria y 1 por empate, ¿cuántos puntos suma un equipo con 20 victorias, 10 empates y 8 derrotas?',['70','68','72','74'],'20 × 3 = 60, más 10 empates = 70 puntos.'],
-    ['T','M',1,'¿Qué caracteriza al "tiki-taka"?',['Posesión con pases cortos','Pelotazos largos','Defensa de cinco','Marcación individual'],'Circulación rápida del balón para mover al rival.'],
-    ['T','A',2,'Tu equipo gana 1-0 al minuto 80 y el rival solo envía centros. ¿Qué cambio haces?',['Un central más para el juego aéreo','Un delantero más','Un extremo para abrir la cancha','Cambiar a todos los volantes'],'Si el rival ataca por centros, hay que ganar el área.'],
-    ['R','M',1,'¿A qué distancia de la línea de meta se ejecuta un penal?',['11 metros','9,15 metros','12 metros','10 metros'],'El punto penal está a 11 m de la línea de meta.'],
-    ['R','A',2,'¿Se sanciona fuera de juego a un delantero que recibe de un saque de banda?',['No','Sí, siempre','Solo en el área','Solo con VAR'],'No hay fuera de juego en saques de banda.']
+    // HISTORIA (5)
+    { d: 'H', q: '¿Qué país organizó y ganó el primer Mundial, en 1930?', o: ['Uruguay', 'Argentina', 'Brasil', 'Italia'], c: 0 },
+    { d: 'H', q: 'La "Mano de Dios" y el "gol del siglo" de Maradona en 1986 fueron contra:', o: ['Inglaterra', 'Alemania', 'Bélgica', 'Italia'], c: 0 },
+    { d: 'H', q: '¿Qué selección sorprendió ganando la Eurocopa 2004?', o: ['Grecia', 'Portugal', 'República Checa', 'Países Bajos'], c: 0 },
+    { d: 'H', q: '¿Quién ganó el primer Balón de Oro, en 1956?', o: ['Stanley Matthews', 'Di Stéfano', 'Raymond Kopa', 'Lev Yashin'], c: 0 },
+    { d: 'H', q: '¿En qué Mundial se usó por primera vez el VAR?', o: ['Rusia 2018', 'Brasil 2014', 'Sudáfrica 2010', 'Alemania 2006'], c: 0 },
+
+    // LIGAS (5)
+    { d: 'L', q: '¿Qué club ganó la Premier League 2015-16 con cuotas de 5000 a 1?', o: ['Leicester City', 'Tottenham', 'West Ham', 'Southampton'], c: 0 },
+    { d: 'L', q: '¿Qué club chileno ganó la Copa Libertadores en 1991?', o: ['Colo-Colo', 'U. Católica', 'U. de Chile', 'Cobreloa'], c: 0 },
+    { d: 'L', q: '¿Qué club completó la Premier League 2003-04 sin perder?', o: ['Arsenal', 'Chelsea', 'Man Utd', 'Liverpool'], c: 0 },
+    { d: 'L', q: 'Con 3 puntos por victoria, ¿cuántos suma un equipo con 20 victorias, 10 empates y 8 derrotas?', o: ['70', '68', '72', '74'], c: 0 },
+    { d: 'L', q: '¿Qué club ganó la primera Copa Libertadores, en 1960?', o: ['Peñarol', 'Boca Juniors', 'Santos', 'Nacional'], c: 0 },
+
+    // TÁCTICA (5)
+    { d: 'T', q: '¿Qué caracteriza al "tiki-taka"?', o: ['Posesión con pases cortos', 'Pelotazos largos', 'Defensa de cinco', 'Marcación individual'], c: 0 },
+    { d: 'T', q: 'El "catenaccio" italiano se identifica con:', o: ['Defensa sólida y contragolpe', 'Presión alta', 'Juego exterior', 'Posesión prolongada'], c: 0 },
+    { d: 'T', q: 'Tu equipo juega sin delantero fijo (falso 9). ¿Qué busca?', o: ['Atraer centrales y abrir espacios', 'Ganar duelos aéreos', 'Proteger el área', 'Cobrar tiros libres'], c: 0 },
+    { d: 'T', q: 'Ganas 1-0 al minuto 80 y el rival solo envía centros. ¿Qué cambio haces?', o: ['Un central más para el juego aéreo', 'Un delantero más', 'Un extremo para abrir', 'Cambiar a todos los volantes'], c: 0 },
+    { d: 'T', q: 'El rival presiona alto con tres delanteros. ¿Qué solución genera superioridad?', o: ['Bajar un mediocentro entre los centrales', 'Rifar el balón largo', 'Subir a los laterales', 'Evitar que el portero participe'], c: 0 },
+
+    // REGLAMENTO (5)
+    { d: 'R', q: '¿A qué distancia de la línea de meta se ejecuta un penal?', o: ['11 metros', '9,15 metros', '12 metros', '10 metros'], c: 0 },
+    { d: 'R', q: '¿Se sanciona fuera de juego en un saque de banda?', o: ['No', 'Sí, siempre', 'Solo en el área', 'Solo con VAR'], c: 0 },
+    { d: 'R', q: '¿En qué caso NO interviene el VAR?', o: ['Tarjeta amarilla', 'Gol', 'Penal', 'Roja directa'], c: 0 },
+    { d: 'R', q: 'En un penal, ¿qué debe cumplir el portero antes de la patada?', o: ['Tener parte de un pie en la línea', 'Estar 2m adelante', 'Poder avanzar un paso', 'No moverse'], c: 0 },
+    { d: 'R', q: '¿Cuántos jugadores mínimo debe tener un equipo para continuar?', o: ['7', '6', '8', '9'], c: 0 }
   ];
 
+  // Mezclar opciones y preguntas
   const shuf = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const barra = (p, color = '#00A651') => `<div class="h-2 bg-base border border-line"><div class="h-full transition-all duration-500" style="width:${p}%;background:${color}"></div></div>`;
 
-  let seleccionadas, idx, resp, t0;
+  let nombre = '';
+  let preguntasMezcladas = [];
+  let idx = 0;
+  let respuestas = [];
 
-  function intro() {
+  // --- PANTALLA 1: INGRESO DE NOMBRE ---
+  function inicio() {
     app.innerHTML = `
-      <div class="label text-verde mb-2">El Desafío</div>
-      <h3 class="font-display font-bold uppercase text-2xl mb-4">¿Cuánto sabes de fútbol?</h3>
-      <p class="text-muted text-sm mb-6">Responde 5 preguntas aleatorias. Mide tu memoria y tu capacidad para tomar decisiones tácticas.</p>
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-verde/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-verde">
+          <span class="text-3xl">⚽</span>
+        </div>
+        <h3 class="font-display font-bold uppercase text-2xl mb-2">Bienvenido al Laboratorio Táctico</h3>
+        <p class="text-muted text-sm mb-6">20 preguntas para medir tu conocimiento. Al final, recibirás un diagnóstico personalizado.</p>
+      </div>
       
-      <div class="grid grid-cols-2 gap-2 mb-6">
-        ${Object.values(DIM).map(v => `<div class="border border-line p-3 text-center"><div class="font-display font-bold text-lg text-verde">${v.n}</div><div class="text-[10px] text-muted">${v.d}</div></div>`).join('')}
+      <div class="mb-6">
+        <label class="label block mb-2 text-center">¿Cómo te llamas (o tu apodo)?</label>
+        <input type="text" id="tf-nombre" maxlength="20" placeholder="Ej: El Zancudo" class="w-full bg-base border border-line p-4 text-blanco text-center font-display text-xl focus:border-verde outline-none">
       </div>
 
-      <div class="border border-line p-4 mb-6 text-xs text-muted">
-        <b class="text-blanco">Regla de oro:</b> Al finalizar, podrás retar a tus amigos por WhatsApp con tu puntuación.
+      <div class="grid grid-cols-2 gap-2 mb-6 text-xs text-muted">
+        ${Object.values(DIM).map(v => `<div class="border border-line p-2 text-center"><b class="text-blanco">${v.n}</b><br>${v.d}</div>`).join('')}
       </div>
 
-      <button id="tf-start" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">Comenzar Test</button>`;
-    document.getElementById('tf-start').onclick = empezar;
+      <button id="tf-start" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-4 hover:bg-blanco transition-colors">Comenzar Test</button>`;
+    
+    document.getElementById('tf-start').onclick = () => {
+      const input = document.getElementById('tf-nombre').value.trim();
+      if (!input) { alert('Por favor, ingresa tu nombre o apodo.'); return; }
+      nombre = input;
+      empezar();
+    };
   }
 
+  // --- PANTALLA 2: PREGUNTAS ---
   function empezar() {
-    // Seleccionar 5 preguntas aleatorias del banco
-    seleccionadas = shuf(Q).slice(0, 5);
-    idx = 0; resp = [];
+    preguntasMezcladas = shuf(Q); // Mezclar las 20 preguntas
+    idx = 0; respuestas = [];
     pregunta();
   }
 
   function pregunta() {
-    const q = seleccionadas[idx];
-    const ops = shuf(q[3].map((t, k) => ({ t, ok: k === 0 })));
-    const p = Math.round(idx / seleccionadas.length * 100);
+    const q = preguntasMezcladas[idx];
+    
+    // Mezclar opciones (guardando cuál es la correcta)
+    const opcionesOriginales = q.o.map((texto, i) => ({ texto, esCorrecta: i === q.c }));
+    const opcionesMezcladas = shuf(opcionesOriginales);
+
+    const p = Math.round(idx / Q.length * 100);
     
     app.innerHTML = `
       <div class="flex justify-between items-center text-xs text-muted mb-2">
-        <span class="label">${DIM[q[0]].n}</span><span>${idx + 1} / ${seleccionadas.length}</span>
+        <span class="label">${DIM[q.d].n}</span>
+        <span class="font-bold">${idx + 1} / ${Q.length}</span>
       </div>
       ${barra(p)}
-      <div class="flex gap-2 mt-4 mb-3 text-[11px] uppercase tracking-wider">
-        <span class="border border-line px-2 py-0.5 text-muted">${q[2] === 1 ? 'Básico' : 'Avanzado'}</span>
-        <span class="border border-line px-2 py-0.5 text-muted">${FAC[q[1]]}</span>
-      </div>
-      <h3 class="font-display font-bold text-xl sm:text-2xl leading-snug mb-5">${q[2] ? q[3].length && q[3][0] : ''}${q[3][0] ? q[3][0] : ''}${q[3][1] ? '' : ''}${q[2] ? '' : ''}${q[3][0] ? q[3][0] : ''}${q[3][0] ? q[3][0] : ''}</h3>
+      
+      <h3 class="font-display font-bold text-xl sm:text-2xl leading-snug mt-6 mb-6">${q.q}</h3>
+      
       <div id="tf-ops" class="grid gap-2">
-        ${ops.map((o, k) => `<button data-k="${k}" class="tf-op text-left border border-line bg-base p-4 text-sm hover:border-verde transition-colors">${o.t}</button>`).join('')}
+        ${opcionesMezcladas.map((op, k) => `
+          <button data-k="${k}" class="tf-op text-left border border-line bg-base p-4 text-sm hover:border-verde transition-colors flex items-center gap-3">
+            <span class="w-6 h-6 border border-line flex items-center justify-center text-xs font-bold text-muted shrink-0">${String.fromCharCode(65 + k)}</span>
+            ${op.texto}
+          </button>
+        `).join('')}
       </div>
     `;
-    // El título de la pregunta está en q[3][0] y las opciones en q[3].slice(1)
-    // Corrijo el HTML para que muestre la pregunta correctamente:
-    const tituloPregunta = q[3][0];
-    const opcionesReales = q[3].slice(1);
-    const opsReales = shuf(opcionesReales.map((t, k) => ({ t, ok: k === 0 })));
 
-    // Re-renderizamos la pregunta correctamente
-    app.innerHTML = `
-      <div class="flex justify-between items-center text-xs text-muted mb-2">
-        <span class="label">${DIM[q[0]].n}</span><span>${idx + 1} / ${seleccionadas.length}</span>
-      </div>
-      ${barra(p)}
-      <div class="flex gap-2 mt-4 mb-3 text-[11px] uppercase tracking-wider">
-        <span class="border border-line px-2 py-0.5 text-muted">${q[2] === 1 ? 'Básico' : 'Avanzado'}</span>
-        <span class="border border-line px-2 py-0.5 text-muted">${FAC[q[1]]}</span>
-      </div>
-      <h3 class="font-display font-bold text-xl sm:text-2xl leading-snug mb-5">${tituloPregunta}</h3>
-      <div id="tf-ops" class="grid gap-2">
-        ${opsReales.map((o, k) => `<button data-k="${k}" class="tf-op text-left border border-line bg-base p-4 text-sm hover:border-verde transition-colors">${o.t}</button>`).join('')}
-      </div>
-      <div id="tf-conf" class="hidden mt-5">
-        <div class="text-xs text-muted mb-2">¿Qué tan seguro estás de tu respuesta?</div>
-        <div class="grid grid-cols-3 gap-2">
-          <button data-c="s" class="tf-c border border-verde text-verde py-2 text-xs font-display font-bold uppercase tracking-wider hover:bg-verde hover:text-base transition-colors">Seguro</button>
-          <button data-c="i" class="tf-c border border-line py-2 text-xs font-display font-bold uppercase tracking-wider hover:border-blanco transition-colors">Intuición</button>
-          <button data-c="a" class="tf-c border border-line text-muted py-2 text-xs font-display font-bold uppercase tracking-wider hover:border-blanco transition-colors">Adiviné</button>
-        </div>
-      </div>`;
-
-    t0 = performance.now();
-    let elegido = null, t = 0;
-
-    app.querySelectorAll('.tf-op').forEach(b => b.onclick = () => {
-      if (elegido === null) t = (performance.now() - t0) / 1000;
-      elegido = opsReales[b.dataset.k];
-      app.querySelectorAll('.tf-op').forEach(x => x.classList.remove('border-verde', 'bg-verde/10'));
-      b.classList.add('border-verde', 'bg-verde/10');
-      document.getElementById('tf-conf').classList.remove('hidden');
-    });
-
-    app.querySelectorAll('.tf-c').forEach(b => b.onclick = () => {
-      if (!elegido) return;
-      resp.push({ ...q, ok: elegido.ok, conf: b.dataset.c, t, elegida: elegido.t, correcta: q[3][1] });
-      idx++;
-      idx < seleccionadas.length ? pregunta() : resultados();
+    // Lógica de selección
+    app.querySelectorAll('.tf-op').forEach(btn => {
+      btn.onclick = () => {
+        const k = parseInt(btn.dataset.k);
+        const seleccion = opcionesMezcladas[k];
+        
+        // Guardar respuesta
+        respuestas.push({ ...q, esCorrecta: seleccion.esCorrecta });
+        
+        // Feedback visual rápido (opcional, para que sepa si acertó)
+        // Por ahora pasamos directo a la siguiente para ser rápidos.
+        idx++;
+        if (idx < preguntasMezcladas.length) {
+          pregunta();
+        } else {
+          resultados();
+        }
+      };
     });
   }
 
-  // ... (La función de resultados se mantiene igual, pero ahora calcula sobre 5 preguntas)
+  // --- PANTALLA 3: RESULTADOS Y DIAGNÓSTICO ---
   function resultados() {
-    // ... (Misma lógica de cálculo, pero adaptada a respuestas de 5 preguntas)
-    // Para no hacer el código eterno aquí, asumo que el cálculo es similar al tuyo.
-    // Solo muestra un mensaje final con opción de compartir por WhatsApp.
-    const global = Math.round(resp.filter(r => r.ok).length / resp.length * 100);
-    const nivel = global >= 80 ? 'Maestro del Juego' : global >= 60 ? 'Estratega' : global >= 40 ? 'Analista' : 'Hincha Informado';
+    const totalAciertos = respuestas.filter(r => r.esCorrecta).length;
+    const puntajeGlobal = Math.round((totalAciertos / Q.length) * 100);
+
+    // Calcular por dimensión
+    const stats = { H: { ok: 0, total: 0 }, L: { ok: 0, total: 0 }, T: { ok: 0, total: 0 }, R: { ok: 0, total: 0 } };
+    respuestas.forEach(r => {
+      stats[r.d].total++;
+      if (r.esCorrecta) stats[r.d].ok++;
+    });
+
+    // Determinar nivel
+    let nivel = '';
+    if (puntajeGlobal >= 85) nivel = 'Maestro del Juego';
+    else if (puntajeGlobal >= 70) nivel = 'Estratega';
+    else if (puntajeGlobal >= 50) nivel = 'Analista';
+    else if (puntajeGlobal >= 30) nivel = 'Hincha Informado';
+    else nivel = 'Aficionado Ocasional';
+
+    // Diagnosticar qué debe mejorar (la dimensión con menor %)
+    let peorDim = 'H';
+    let peorPct = 100;
+    let mejorDim = 'H';
+    let mejorPct = 0;
     
-    // Guardar en el ranking local
+    Object.keys(stats).forEach(k => {
+      const pct = (stats[k].ok / stats[k].total) * 100;
+      if (pct < peorPct) { peorPct = pct; peorDim = k; }
+      if (pct > mejorPct) { mejorPct = pct; mejorDim = k; }
+    });
+
+    // Guardar ranking local
     let ranking = [];
     try { ranking = JSON.parse(localStorage.getItem('icfRanking') || '[]'); } catch(e) {}
-    const nombre = prompt('¡Gran puntaje! ¿Cómo te llamas (o tu apodo)?') || 'Anónimo';
-    ranking.push({ nombre, puntos: global, fecha: new Date().toISOString() });
+    ranking.push({ nombre, puntos: puntajeGlobal, fecha: new Date().toISOString() });
     ranking.sort((a, b) => b.puntos - a.puntos);
-    try { localStorage.setItem('icfRanking', JSON.stringify(ranking.slice(0, 5))); } catch(e) {}
+    const top5 = ranking.slice(0, 5);
+    try { localStorage.setItem('icfRanking', JSON.stringify(top5)); } catch(e) {}
 
-    const rankingHTML = ranking.map((r, i) => `<div class="flex justify-between py-1 ${i === 0 ? 'text-yellow-500' : 'text-blanco'}"><span>${i + 1}. ${r.nombre}</span><span>${r.puntos} pts</span></div>`).join('');
+    const rankingHTML = top5.map((r, i) => {
+      const esTu = r.nombre === nombre && r.puntos === puntajeGlobal;
+      return `<div class="flex justify-between py-1.5 border-b border-line/50 ${esTu ? 'text-verde font-bold' : (i === 0 ? 'text-yellow-500' : 'text-blanco')}">
+        <span>${i + 1}. ${r.nombre} ${esTu ? '(Tú)' : ''}</span>
+        <span>${r.puntos} pts</span>
+      </div>`;
+    }).join('');
+
+    const mensajeWsp = `¡Saqué ${puntajeGlobal} puntos en el Índice de Cultura Futbolística del Inter de KTC y soy "${nivel}"! ⚽🏆 ¿Te atreves a superarme? Juega aquí: ${window.location.href.split('#')[0]}#test-futbol`;
 
     app.innerHTML = `
-      <div class="text-center mb-6">
-        <div class="label text-muted mb-1">Tu Índice de Cultura Futbolística</div>
-        <div class="font-display font-black text-7xl text-verde leading-none">${global}</div>
-        <div class="font-display font-bold uppercase text-2xl mt-2">${nivel}</div>
-        <p class="text-muted text-sm mt-2 max-w-md mx-auto">¡${global >= 80 ? 'Eres un crack' : global >= 60 ? 'Tienes buena lectura' : 'Sigue practicando'}! Ya estás en el ranking del club.</p>
+      <div class="text-center mb-8">
+        <div class="label text-muted mb-1">Resultados de ${nombre}</div>
+        <div class="font-display font-black text-8xl text-verde leading-none">${puntajeGlobal}</div>
+        <div class="font-display font-bold uppercase text-2xl mt-2 text-blanco">${nivel}</div>
+        <p class="text-muted text-sm mt-2">Acertaste ${totalAciertos} de ${Q.length} preguntas.</p>
       </div>
 
-      <div class="border border-line p-4 mb-6 text-left">
-        <div class="label text-verde mb-2">Ranking del Club (Top 5)</div>
+      <!-- Diagnóstico de Dimensiones -->
+      <div class="border border-line p-5 mb-6 bg-base/50">
+        <div class="label text-verde mb-4">Tu perfil por dimensión</div>
+        <div class="space-y-3">
+          ${Object.keys(stats).map(k => {
+            const pct = Math.round((stats[k].ok / stats[k].total) * 100);
+            const color = pct >= 80 ? '#00A651' : pct >= 50 ? '#EAB308' : '#CE2B37';
+            return `
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span class="font-bold text-blanco">${DIM[k].n}</span>
+                  <span class="text-muted">${stats[k].ok}/${stats[k].total} (${pct}%)</span>
+                </div>
+                <div class="h-2 bg-line"><div class="h-full" style="width:${pct}%;background:${color}"></div></div>
+              </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- Diagnóstico Personalizado -->
+      <div class="bg-verde/10 border border-verde p-5 mb-6 text-sm">
+        <div class="label text-verde mb-2">Diagnóstico del Entrenador</div>
+        <p class="text-blanco mb-2">Tu punto más fuerte es <b class="text-verde">${DIM[mejorDim].n}</b> (${Math.round((stats[mejorDim].ok/stats[mejorDim].total)*100)}%).</p>
+        <p class="text-blanco">Para llegar al siguiente nivel, debes enfocarte en mejorar: <b class="text-rojo">${DIM[peorDim].n}</b> (${Math.round((stats[peorDim].ok/stats[peorDim].total)*100)}%).</p>
+      </div>
+
+      <!-- Ranking Local -->
+      <div class="border border-line p-4 mb-6">
+        <div class="label text-muted mb-3">🏆 Top 5 del Club</div>
         ${rankingHTML}
       </div>
 
-      <div class="grid gap-3 mb-6">
-        <a id="tf-wsp" href="#" target="_blank" class="w-full bg-[#25D366] text-white font-display font-bold uppercase tracking-widest py-3 text-center hover:bg-green-500 transition-colors flex items-center justify-center gap-2">
+      <!-- Botones de Acción -->
+      <div class="grid sm:grid-cols-2 gap-3">
+        <a href="https://wa.me/?text=${encodeURIComponent(mensajeWsp)}" target="_blank" class="bg-[#25D366] text-white font-display font-bold uppercase tracking-widest py-3 text-center hover:bg-green-500 transition-colors flex items-center justify-center gap-2">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Retar a mis amigos
+          Retar por WhatsApp
         </a>
-        <button id="tf-retry" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">Jugar de nuevo</button>
-      </div>`;
+        <button id="tf-retry" class="bg-panel border border-line text-blanco font-display font-bold uppercase tracking-widest py-3 hover:border-verde transition-colors">Jugar de nuevo</button>
+      </div>
+    `;
 
-    // Configurar enlace de WhatsApp
-    const mensaje = `¡Saqué ${global} puntos en el Índice de Cultura Futbolística del Inter de KTC! ⚽🏆 ¿Te atreves a superarme? Juega aquí: ${window.location.href}#test-futbol`;
-    document.getElementById('tf-wsp').href = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-    
-    document.getElementById('tf-retry').onclick = empezar;
+    document.getElementById('tf-retry').onclick = inicio;
     app.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  intro();
+  // Arrancar la pantalla de inicio
+  inicio();
 })();
 </script>
   <!-- ================= FOOTER ================= -->
