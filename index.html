@@ -645,298 +645,247 @@
       </div>
     </div>
   </section>
-<!-- ================= COPA KTC · TANDA DE PENALES (v3) ================= -->
+<!-- ================= RPG: LEYENDA KTC · LA SENDA DEL ESPARTANO ================= -->
 <style>
-@keyframes pk-pop{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.18);opacity:1}100%{transform:scale(1)}}
-@keyframes pk-sk{0%,100%{transform:translate(0,0)}20%{transform:translate(-9px,4px)}40%{transform:translate(8px,-5px)}60%{transform:translate(-6px,3px)}80%{transform:translate(4px,-2px)}}
-@keyframes pk-fl{0%{opacity:.8}100%{opacity:0}}
-@keyframes pk-bob{to{background-position:0 -5px,0 -5px,5px 1px,5px 1px,0 0}}
-@keyframes pk-pulse{to{transform:translate(-50%,-50%) scale(1.15)}}
-.pk-card{max-width:760px;margin:0 auto;background:#0b111a;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px rgba(0,0,0,.6);-webkit-user-select:none;user-select:none}
-.pk-h{display:none!important}
-.pk-hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:12px 14px;background:linear-gradient(#111a2b,#0b111a);border-bottom:1px solid rgba(255,255,255,.1)}
-.pk-team{display:flex;align-items:center;gap:8px;color:#fff;font-weight:800;letter-spacing:.06em;font-size:13px}
-.pk-team.r{justify-content:flex-end}
-.pk-sc{font-size:34px;line-height:1;font-weight:900;min-width:26px;text-align:center}
-.pk-pips{display:flex;gap:4px;flex-wrap:wrap;max-width:100px}
-.pk-pip{width:20px;height:20px;border-radius:50%;border:2px solid #475569;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-style:normal;color:#fff}
-.pk-pip.g{border-color:#00A651;background:#00A65133}.pk-pip.f{border-color:#CE2B37;color:#CE2B37}
-.pk-mid{text-align:center;color:#fff}
-#pk-stage{font-weight:900;font-size:18px;text-transform:uppercase;letter-spacing:.08em}
-#pk-rival{font-size:11px;color:#94a3b8}
-#pk-chips{display:flex;gap:3px;justify-content:center;margin-top:4px}
-#pk-chips span{font-size:9px;padding:2px 5px;border:1px solid #334155;color:#64748b;text-transform:uppercase}
-#pk-chips .d{background:#00A651;border-color:#00A651;color:#fff}#pk-chips .n{border-color:#fff;color:#fff}
-.pk-sub2{display:flex;justify-content:space-between;align-items:center;padding:6px 14px;color:#94a3b8;font-size:12px;background:#0b111a}
-.pk-sub2 b{color:#fff;font-size:18px}
-.pk-scene{position:relative;aspect-ratio:16/10;overflow:hidden;background:#070b14;touch-action:none;cursor:crosshair}
-.pk-world{position:absolute;inset:0;transform-origin:50% 45%;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.pk-world.pk-sk{animation:pk-sk .45s}
-.pk-sky{position:absolute;inset:0;background:linear-gradient(#050816,#17224d 31%,#17224d 31%)}
-.pk-lt{position:absolute;top:-8%;width:32%;aspect-ratio:1;background:radial-gradient(circle,rgba(255,255,225,.6),transparent 62%)}
-.pk-crowd{position:absolute;left:0;right:0;top:3%;height:29%;-webkit-mask-image:linear-gradient(transparent,#000 30%);mask-image:linear-gradient(transparent,#000 30%);
-background:radial-gradient(circle at 50% 35%,#f1c9a5 0 2.2px,transparent 2.7px) 0 0/11px 13px,radial-gradient(circle at 50% 100%,#CE2B37 0 4.2px,transparent 4.7px) 0 0/11px 13px,radial-gradient(circle at 50% 35%,#d9a47d 0 2.2px,transparent 2.7px) 5px 6px/11px 13px,radial-gradient(circle at 50% 100%,#00A651 0 4.2px,transparent 4.7px) 5px 6px/11px 13px,linear-gradient(#0c1226,#16204a)}
-.pk-world.fest .pk-crowd{animation:pk-bob .3s infinite alternate}
-.pk-pitch{position:absolute;left:0;right:0;top:31%;bottom:0;background:repeating-linear-gradient(180deg,#0a5c2b 0 7%,#0d7035 7% 14%)}
-.pk-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(0,0,0,.6));pointer-events:none}
-.pk-gl{position:absolute;left:8%;right:8%;top:60%;height:2px;background:rgba(255,255,255,.85)}
-.pk-box{position:absolute;left:10%;right:10%;top:60%;height:37%;border:2px solid rgba(255,255,255,.55);border-top:0}
-.pk-spot{position:absolute;left:50%;top:86%;width:2%;aspect-ratio:2;background:#fff;border-radius:50%;transform:translate(-50%,-50%);opacity:.8}
-.pk-goal{position:absolute;left:24%;top:30%;width:52%;height:30%;border:5px solid #fff;border-bottom:0;box-shadow:0 0 28px rgba(255,255,255,.3);transform-origin:50% 100%;
-background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 1px,transparent 1px 9px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 1px,transparent 1px 9px),rgba(0,0,0,.4)}
-.pk-gk{position:absolute;width:9%;aspect-ratio:.7;z-index:5;left:50%;top:48%;transform:translate(-50%,-50%);transition:left .4s cubic-bezier(.15,.9,.3,1),top .4s cubic-bezier(.15,.9,.3,1),transform .4s cubic-bezier(.15,.9,.3,1)}
-.pk-gk i{position:absolute;display:block}
-.pk-gk .hd{left:30%;width:40%;aspect-ratio:1;top:0;background:#f1c9a5;border-radius:50%}
-.pk-gk .bd{left:15%;width:70%;top:30%;bottom:10%;background:var(--kc,#00A651);border-radius:30% 30% 10% 10%}
-.pk-gk .lg{left:22%;width:56%;bottom:-8%;height:22%;background:#111827;border-radius:0 0 8px 8px}
-.pk-gk .ar{top:34%;width:46%;height:14%;background:var(--kc,#00A651);border-radius:9px;transition:transform .3s}
-.pk-gk .ar::after{content:'';position:absolute;top:-35%;width:70%;aspect-ratio:1;background:#fff;border-radius:50%}
-.pk-gk .al{left:-32%;transform:rotate(25deg);transform-origin:right center}.pk-gk .al::after{left:-35%}
-.pk-gk .ar2{right:-32%;transform:rotate(-25deg);transform-origin:left center}.pk-gk .ar2::after{right:-35%}
-.pk-gk.dv .al{transform:rotate(-70deg)}.pk-gk.dv .ar2{transform:rotate(70deg)}
-#pk-sh{width:6.5%;z-index:4;left:43%;top:89%}
-.pk-ball{position:absolute;left:50%;top:86%;width:4.6%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);z-index:8;box-shadow:0 5px 10px rgba(0,0,0,.6);
-background:radial-gradient(circle at 50% 50%,#111 0 17%,transparent 18%),radial-gradient(circle at 22% 30%,#111 0 9%,transparent 10%),radial-gradient(circle at 78% 34%,#111 0 9%,transparent 10%),radial-gradient(circle at 36% 80%,#111 0 9%,transparent 10%),radial-gradient(circle at 68% 80%,#111 0 9%,transparent 10%),radial-gradient(circle at 35% 30%,#fff,#cbd5e1)}
-.pk-ret{position:absolute;left:50%;top:45%;width:6.5%;aspect-ratio:1;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:20;box-shadow:0 0 14px #00A651,inset 0 0 8px #00A651}
-.pk-ret::before,.pk-ret::after{content:'';position:absolute;background:#fff;left:50%;top:50%;transform:translate(-50%,-50%)}
-.pk-ret::before{width:60%;height:2px}.pk-ret::after{width:2px;height:60%}
-.pk-ret.lock{border-color:#EAB308;box-shadow:0 0 18px #EAB308;animation:pk-pulse .45s infinite alternate}
-.pk-dz{position:absolute;left:24%;top:30%;width:52%;height:30%;display:grid;grid-template:1fr 1fr/repeat(3,1fr);gap:3px;z-index:15}
-.pk-dz b{border:1px dashed rgba(255,255,255,.4)}.pk-dz b:hover{background:rgba(0,166,81,.35);border-color:#00A651}
-.pk-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:55;opacity:0;text-align:center}
-.pk-msg .pk-pop{animation:pk-pop .45s cubic-bezier(.2,1.4,.4,1) both;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(1.8rem,8vw,4.2rem);color:#fff;text-shadow:0 0 24px rgba(0,0,0,.9),0 4px 0 rgba(0,0,0,.5)}
-.pk-fx{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:0}.pk-fx.on{animation:pk-fl .55s ease-out}
-.pk-ov{position:absolute;inset:0;z-index:70;background:rgba(5,8,16,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem;gap:.6rem;color:#fff}
-.pk-big{font-size:clamp(2rem,8vw,3.8rem);font-weight:900;text-transform:uppercase;line-height:1;letter-spacing:.04em}
-.pk-vs{display:flex;gap:14px;align-items:center;font-size:clamp(1rem,4vw,1.6rem);font-weight:800}.pk-vs span{color:#CE2B37}
-.pk-sub{color:#94a3b8;font-size:13px;max-width:34ch}
-.pk-btn{background:#00A651;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:12px 30px;margin-top:6px;transition:background .2s,color .2s;cursor:pointer}.pk-btn:hover{background:#fff;color:#0b111a}
-.pk-ctl{padding:12px 14px 14px;background:#0b111a;border-top:1px solid rgba(255,255,255,.1)}
-.pk-pw{position:relative;height:16px;border-radius:99px;background:linear-gradient(90deg,#CE2B37 0 30%,#EAB308 30% 58%,#00A651 58% 88%,#CE2B37 88%);transition:opacity .2s;opacity:.35}
-.pk-pm{position:absolute;top:-6px;left:0;width:6px;height:28px;background:#fff;border-radius:3px;box-shadow:0 0 8px #fff}
-.pk-tmw{height:5px;background:#1e293b;margin-top:8px;overflow:hidden}.pk-tmw i{display:block;height:100%;width:0;background:#EAB308}
-#pk-hint{text-align:center;color:#cbd5e1;font-size:13px;margin-top:10px;min-height:1.3em}
-@media (prefers-reduced-motion:reduce){.pk-world.pk-sk,.pk-world.fest .pk-crowd,.pk-ret.lock{animation:none}}
+@keyframes rq-bob{50%{transform:translateY(-6px)}}
+@keyframes rq-hit{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px);filter:brightness(2.5)}60%{transform:translateX(10px)}}
+@keyframes rq-up{0%{opacity:0;transform:translate(-50%,0) scale(.5)}20%{opacity:1;transform:translate(-50%,-12px) scale(1.2)}100%{opacity:0;transform:translate(-50%,-70px)}}
+@keyframes rq-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rq-glow{50%{box-shadow:0 0 22px #EAB308}}
+@keyframes rq-shake{0%,100%{transform:translate(0,0)}20%{transform:translate(-8px,3px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(4px,-2px)}}
+.rq{max-width:760px;margin:0 auto;background:#0b111a;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 80px rgba(0,0,0,.6);color:#fff;overflow:hidden;-webkit-user-select:none;user-select:none}
+.rq *{box-sizing:border-box}
+.rq-top{display:flex;gap:14px;align-items:center;padding:10px 14px;background:#111a2b;border-bottom:1px solid rgba(255,255,255,.1);font-size:13px;color:#94a3b8;flex-wrap:wrap}
+.rq-top b{color:#fff}.rq-top button{margin-left:auto;color:#94a3b8;font-size:13px;text-decoration:underline}
+.rq-bar{height:16px;background:#1e293b;border:1px solid #334155;position:relative;overflow:hidden;margin-bottom:6px}
+.rq-bar i{display:block;height:100%;transition:width .45s}
+.rq-bar em{position:absolute;inset:0;font-style:normal;font-size:11px;text-align:center;line-height:14px;text-shadow:0 1px 2px #000}
+.rq-bar.sm{height:8px}.rq-bar.sm em{display:none}
+.rq-scene{position:relative;height:270px;background:linear-gradient(var(--a),var(--b));overflow:hidden}
+.rq-scene::after{content:'';position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,#0a5c2b 0 12%,#0d7035 12% 24%)}
+.rq-scene::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0,rgba(255,255,255,.2),transparent 60%);z-index:1}
+.rq-u{position:absolute;bottom:10%;width:42%;text-align:center;z-index:3}
+.rq-u.h{left:3%}.rq-u.e{right:3%}
+.rq-nm{font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;text-shadow:0 2px 0 #000}
+.rq-u .rq-bar{width:85%;margin-left:auto;margin-right:auto}
+.rq-sp{display:inline-block;font-size:72px;line-height:1;margin-top:4px;animation:rq-bob 2s infinite;filter:drop-shadow(0 8px 4px rgba(0,0,0,.55));transition:transform .25s}
+.rq-u.boss .rq-sp{font-size:88px}
+.rq-u.h.atk .rq-sp{transform:translateX(110px) scale(1.25)}.rq-u.e.atk .rq-sp{transform:translateX(-110px) scale(1.25)}
+.rq-u.hit .rq-sp{animation:rq-hit .45s}.rq-u.stun .rq-sp::after{content:'💫';font-size:32px;position:absolute;margin:-8px 0 0 -26px}
+.rq-u.shd .rq-sp{filter:drop-shadow(0 0 14px #3b82f6)}
+.rq-int{position:absolute;top:8px;right:10px;z-index:6;max-width:62%;background:rgba(0,0,0,.75);border:1px solid #475569;padding:6px 10px;font-size:13px;border-radius:4px;}
+.rq-f{position:absolute;left:50%;top:20%;z-index:9;font-weight:900;font-size:32px;animation:rq-up 1.1s forwards;pointer-events:none;text-shadow:0 2px 0 #000;white-space:nowrap}
+.rq-box{padding:16px;animation:rq-in .3s}
+.rq-log{min-height:48px;font-size:15px;color:#cbd5e1;margin-bottom:14px;line-height:1.5}
+.rq-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rq-a{border:1px solid #334155;background:#0f172a;padding:12px 10px;text-align:left;cursor:pointer;transition:.15s;border-radius:4px;}
+.rq-a b{display:block;font-size:14px;text-transform:uppercase;letter-spacing:.05em}.rq-a small{font-size:12px;color:#94a3b8}
+.rq-a:hover:not(:disabled){border-color:#00A651;background:#00A65114}.rq-a:disabled{opacity:.35;cursor:not-allowed}
+.rq-pad{padding:28px 18px;text-align:center;animation:rq-in .35s}
+.rq-h{font-weight:900;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(1.8rem,6vw,3rem);line-height:1.05}
+.rq-sub{color:#94a3b8;font-size:14px;max-width:48ch;margin:10px auto 0;line-height:1.6}
+.rq-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:20px}
+.rq-card{border:1px solid #334155;background:#0f172a;padding:18px 14px;cursor:pointer;transition:.2s;text-align:center;border-radius:6px;}
+.rq-card:hover{border-color:#00A651;transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,166,81,.2)}
+.rq-card .e{font-size:48px}.rq-card b{display:block;text-transform:uppercase;font-size:15px;margin-top:6px}
+.rq-card small{color:#94a3b8;font-size:12px;display:block;margin-top:8px;line-height:1.5}
+.rq-btn{background:#00A651;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:14px 32px;transition:.2s;cursor:pointer;margin-top:20px;border-radius:4px;font-size:15px;}.rq-btn:hover{background:#fff;color:#0b111a}
+.rq-map{display:flex;align-items:center;justify-content:center;margin:24px 0 8px;flex-wrap:wrap;gap:0}
+.rq-n{width:56px;height:56px;border-radius:50%;border:2px solid #334155;display:flex;align-items:center;justify-content:center;font-size:26px;background:#0f172a}
+.rq-n.done{border-color:#00A651;background:#00A65126}.rq-n.cur{border-color:#EAB308;animation:rq-glow 1.4s infinite}.rq-n.lock{opacity:.35;filter:grayscale(1)}
+.rq-l{width:24px;height:4px;background:#334155}.rq-l.done{background:#00A651}
+.rq-in{width:100%;max-width:300px;background:#0f172a;border:1px solid #334155;padding:12px;color:#fff;font-size:15px;margin-top:16px;outline:none;border-radius:4px;}.rq-in:focus{border-color:#00A651}
+.rq-rk{max-width:320px;margin:18px auto 0;text-align:left;font-size:14px;border-top:1px solid #334155;padding-top:12px}
+.rq-rk div{display:flex;justify-content:space-between;padding:5px 0}
+@media (prefers-reduced-motion:reduce){.rq-sp,.rq-n.cur{animation:none}}
 </style>
 
-<section id="juego-penales" class="py-20 border-t border-line bg-base relative overflow-hidden">
+<section id="juego-rpg" class="py-24 border-t border-line bg-base relative overflow-hidden">
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00A651]/10 via-base to-base pointer-events-none"></div>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="text-center mb-8">
       <div class="label text-rojo mb-3">Zona de Hinchas</div>
-      <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Copa KTC</h2>
-      <p class="text-muted mt-3 text-sm">Patea, ataja y gana cuatro tandas hasta levantar la copa.</p>
+      <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Leyenda KTC</h2>
+      <p class="text-muted mt-3 text-sm">RPG por turnos: elige tu jugador, sube de nivel y vence a cinco rivales hasta llegar al Rey del VAR.</p>
     </div>
-
-    <div class="pk-card">
-      <div class="pk-hud font-display">
-        <div class="pk-team"><span>KTC</span><span class="pk-sc" id="pk-ys">0</span><div class="pk-pips" id="pk-yp"></div></div>
-        <div class="pk-mid"><div id="pk-stage">Octavos</div><div id="pk-rival"></div><div id="pk-chips"></div></div>
-        <div class="pk-team r"><div class="pk-pips" id="pk-rp" style="justify-content:flex-end"></div><span class="pk-sc" id="pk-rs">0</span><span id="pk-rn">RIV</span></div>
-      </div>
-      <div class="pk-sub2">
-        <span>Puntos <b id="pk-pts">0</b></span>
-        <span>Racha <b id="pk-cb">x1</b></span>
-        <button id="pk-snd" class="text-xs underline" style="color:#94a3b8">🔊 Sonido</button>
-      </div>
-
-      <div class="pk-scene" id="pk-scene">
-        <div class="pk-world" id="pk-world">
-          <div class="pk-sky"></div><div class="pk-lt" style="left:-6%"></div><div class="pk-lt" style="right:-6%"></div>
-          <div class="pk-crowd"></div><div class="pk-pitch"></div>
-          <div class="pk-box"></div><div class="pk-gl"></div><div class="pk-spot"></div>
-          <div class="pk-goal" id="pk-goal"></div>
-          <div class="pk-gk" id="pk-gk"></div>
-          <div class="pk-gk" id="pk-sh"></div>
-          <div class="pk-ball" id="pk-ball"></div>
-          <div class="pk-vig"></div>
-        </div>
-        <div class="pk-ret pk-h" id="pk-ret"></div>
-        <div class="pk-dz pk-h" id="pk-dz"><b></b><b></b><b></b><b></b><b></b><b></b></div>
-        <div class="pk-fx" id="pk-fx"></div>
-        <div class="pk-msg font-display" id="pk-msg"></div>
-        <div class="pk-ov font-display pk-h" id="pk-ov"></div>
-      </div>
-
-      <div class="pk-ctl">
-        <div class="pk-pw" id="pk-pw"><span class="pk-pm" id="pk-pm"></span></div>
-        <div class="pk-tmw pk-h" id="pk-tmw"><i id="pk-tm"></i></div>
-        <div id="pk-hint"></div>
-      </div>
-    </div>
+    <div class="rq font-display" id="rq-app"></div>
   </div>
 </section>
 
-<!-- Modal final -->
-<div id="pk-modal" class="fixed inset-0 bg-base/90 backdrop-blur-md z-[200] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-  <div class="bg-panel border border-verde p-8 max-w-md w-full mx-4 text-center shadow-[0_0_50px_rgba(0,166,81,0.3)]">
-    <div class="w-16 h-16 bg-verde/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-verde"><span id="pk-m-emoji" class="text-3xl">🏆</span></div>
-    <h3 id="pk-m-titulo" class="font-display font-bold uppercase text-3xl text-blanco mb-2"></h3>
-    <p class="text-muted text-sm mb-5"><strong id="pk-m-goles" class="text-verde">0</strong> goles · <strong id="pk-m-par" class="text-verde">0</strong> atajadas · <strong id="pk-m-puntos" class="text-blanco">0</strong> puntos</p>
-    <form id="pk-form" class="space-y-3 mb-5">
-      <input type="text" id="pk-nombre" required maxlength="18" placeholder="Tu nombre o apodo" class="w-full bg-base border border-line p-3 text-blanco text-sm focus:border-verde outline-none">
-      <button type="submit" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">Guardar récord</button>
-    </form>
-    <div id="pk-ranking" class="text-left text-sm border-t border-line pt-4 mb-4 pk-h"></div>
-    <button id="pk-otra" class="text-xs text-muted underline hover:text-blanco">Jugar de nuevo</button>
-  </div>
-</div>
-
 <script>
 (()=>{
-const $=i=>document.getElementById(i),sleep=ms=>new Promise(r=>setTimeout(r,ms)),rnd=(a,b)=>a+Math.random()*(b-a),cl=(v,a,b)=>Math.max(a,Math.min(b,v));
-const sc=$('pk-scene'),world=$('pk-world'),gk=$('pk-gk'),sh=$('pk-sh'),ball=$('pk-ball'),ret=$('pk-ret'),msg=$('pk-msg'),fx=$('pk-fx'),pm=$('pk-pm'),pw=$('pk-pw'),hint=$('pk-hint'),dz=$('pk-dz'),goal=$('pk-goal'),ov=$('pk-ov'),modal=$('pk-modal');
-const G={x0:24,x1:76,y0:30,y1:60},ETAPAS=['Octavos','Cuartos','Semifinal','Final'];
-const RIV=[{n:'Atlético Norte',c:'#f59e0b'},{n:'Unión Cordillera',c:'#3b82f6'},{n:'Real Pacífico',c:'#a855f7'},{n:'Deportivo Titán',c:'#e5e7eb'}];
-gk.innerHTML=sh.innerHTML='<i class="hd"></i><i class="bd"></i><i class="ar al"></i><i class="ar ar2"></i><i class="lg"></i>';
-const S={st:0,phase:'idle',res:null,aim:{x:50,y:45},pv:0,ys:0,rs:0,yk:0,rk:0,yp:[],rp:[],puntos:0,combo:1,goles:0,paradas:0};
+const app=document.getElementById('rq-app'),$=i=>document.getElementById(i);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms)),rnd=(a,b)=>a+Math.random()*(b-a),shuf=a=>a.slice().sort(()=>Math.random()-.5);
 
-/* ---------- Audio ---------- */
+/* ---------- Audio mínimo ---------- */
 let AC,mute=false;
-const au=()=>{if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==='suspended')AC.resume();return AC};
-function tone(f,d,t='sine',v=.15,s=0){const a=au();if(!a||mute)return;const o=a.createOscillator(),g=a.createGain(),n=a.currentTime;o.type=t;o.frequency.setValueAtTime(f,n);if(s)o.frequency.exponentialRampToValueAtTime(Math.max(30,s),n+d);g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g).connect(a.destination);o.start();o.stop(n+d)}
-function noise(d,v=.2,f=800,att=.01){const a=au();if(!a||mute)return;const n=a.sampleRate*d,b=a.createBuffer(1,n,a.sampleRate),c=b.getChannelData(0);for(let i=0;i<n;i++)c[i]=Math.random()*2-1;const s=a.createBufferSource();s.buffer=b;const fl=a.createBiquadFilter();fl.type='bandpass';fl.frequency.value=f;const g=a.createGain(),t=a.currentTime;g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(v,t+att);g.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(fl).connect(g).connect(a.destination);s.start()}
-const SND={kick:()=>{tone(160,.12,'triangle',.4,50);noise(.08,.3,1500)},gol:()=>{noise(1.8,.35,900,.25);tone(523,.15,'square',.07);setTimeout(()=>tone(784,.25,'square',.07),130)},ataja:()=>{tone(120,.2,'sine',.4,60);noise(.2,.2,400)},palo:()=>{tone(1400,.6,'sine',.25,900);noise(.1,.3,3000)},out:()=>noise(.7,.15,500,.2),whistle:()=>{tone(2900,.25,'sine',.1);setTimeout(()=>tone(2900,.4,'sine',.1),300)},win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.3,'square',.09),i*140))};
-$('pk-snd').onclick=e=>{mute=!mute;e.target.textContent=mute?'🔇 Sonido':'🔊 Sonido'};
+function tone(f,d=.12,t='square',v=.07,s=0){if(mute)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime;o.type=t;o.frequency.setValueAtTime(f,n);if(s)o.frequency.exponentialRampToValueAtTime(s,n+d);g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g).connect(AC.destination);o.start();o.stop(n+d)}catch(e){}}
+const SND={hit:()=>tone(220,.15,'sawtooth',.1,70),crit:()=>{tone(600,.1);setTimeout(()=>tone(900,.18),90)},hurt:()=>tone(140,.2,'triangle',.12,60),heal:()=>{tone(500,.1,'sine');setTimeout(()=>tone(750,.15,'sine'),100)},win:()=>[523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,.25),i*130)),lose:()=>[300,240,180].forEach((f,i)=>setTimeout(()=>tone(f,.3,'triangle'),i*220))};
 
-/* ---------- Utilidades visuales ---------- */
-const place=(el,x,y)=>{el.style.left=x+'%';el.style.top=y+'%'};
-function say(h,ms=1100){msg.innerHTML='<span class="pk-pop">'+h+'</span>';msg.style.opacity=1;return sleep(ms).then(()=>{msg.style.opacity=0})}
-function fl(c){fx.style.background=c;fx.classList.remove('on');void fx.offsetWidth;fx.classList.add('on')}
-function shake(){world.classList.remove('pk-sk');void world.offsetWidth;world.classList.add('pk-sk')}
-function confeti(n){const cols=['#00A651','#fff','#CE2B37','#EAB308'];for(let i=0;i<n;i++){const p=document.createElement('i');p.style.cssText=`position:absolute;z-index:56;width:6px;height:10px;left:50%;top:45%;background:${cols[i%4]};pointer-events:none`;sc.appendChild(p);const dx=rnd(-.55,.55)*sc.clientWidth,dy=-60-Math.random()*110;p.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${dx*.6}px,${dy}px) rotate(${Math.random()*360}deg)`,opacity:1,offset:.4},{transform:`translate(${dx}px,${sc.clientHeight}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1200+Math.random()*600,easing:'ease-out'}).onfinish=()=>p.remove()}}
-function hud(){
-  const k=(a,id)=>{let h='';for(let i=0;i<Math.max(3,a.length);i++){const r=a[i];h+=`<i class="pk-pip ${r||''}">${r==='g'?'⚽':r==='f'?'✕':''}</i>`}$(id).innerHTML=h};
-  k(S.yp,'pk-yp');k(S.rp,'pk-rp');
-  $('pk-ys').textContent=S.ys;$('pk-rs').textContent=S.rs;$('pk-pts').textContent=S.puntos;
-  const c=$('pk-cb');c.textContent='x'+S.combo;c.style.color=S.combo>1?'#EAB308':'';
-  const s=Math.min(S.st,3);$('pk-stage').textContent=ETAPAS[s];$('pk-rival').textContent='vs '+RIV[s].n;$('pk-rn').textContent=RIV[s].n.split(' ')[0].toUpperCase();
-  $('pk-chips').innerHTML=ETAPAS.map((e,i)=>`<span class="${i<S.st?'d':i===S.st?'n':''}">${e}</span>`).join('');
+/* ---------- Datos ---------- */
+const CL={
+  d:{n:'Delantero',e:'🏃',hp:90,atk:17,def:4,en:40,hab:'Chilena',desc:'Daño x2.3 · 25 EN',cost:25,txt:'Pega fuerte y rápido, pero aguanta poco.'},
+  m:{n:'Mediocentro',e:'🧠',hp:100,atk:13,def:6,en:50,hab:'Pase filtrado',desc:'Daño x1.5 y aturde · 25 EN',cost:25,txt:'Controla el ritmo: aturde al rival y tiene mucha energía.'},
+  f:{n:'Defensa',e:'🛡️',hp:130,atk:11,def:10,en:35,hab:'Muralla',desc:'Escudo 2 turnos + golpe · 20 EN',cost:20,txt:'Muy resistente, ideal para aguantar y contragolpear.'}
+};
+const EN=[
+  {n:'Defensa Rústico',e:'🦵',hp:70,atk:11,xp:45,bg:['#1e3a5f','#0f2742']},
+  {n:'Portero Gigante',e:'🧤',hp:105,atk:13,xp:60,bg:['#3b1f5c','#1e0f33']},
+  {n:'Barra Brava',e:'📣',hp:130,atk:16,xp:80,bg:['#5c2a1f','#2e130c']},
+  {n:'Árbitro Comprado',e:'🟨',hp:160,atk:18,xp:100,bg:['#5c501f','#2e280c']},
+  {n:'Rey del VAR',e:'👑',hp:240,atk:22,xp:0,bg:['#4a0f1a','#1a050a'],boss:true}
+];
+const INT={atk:'⚔️ Se prepara para atacar',heavy:'💥 ¡Entrada brutal! Conviene defenderse',guard:'🛡️ Se cierra: tu daño se reduce a la mitad'};
+const REW=[
+  {t:'Botines nuevos',e:'👟',d:'+4 Ataque',f:p=>p.atk+=4},
+  {t:'Chaleco reforzado',e:'🦺',d:'+3 Defensa',f:p=>p.def+=3},
+  {t:'Dieta de campeón',e:'🥗',d:'+25 Vida máx. y cura 25',f:p=>{p.mhp+=25;p.hp=Math.min(p.mhp,p.hp+25)}},
+  {t:'Cajón de isotónicos',e:'🧴',d:'+2 Isotónicos',f:p=>p.pots+=2},
+  {t:'Energía pura',e:'⚡',d:'+15 EN máx. y recarga total',f:p=>{p.men+=15;p.en=p.men}}
+];
+const NIVELES=[[0,'Suplente'],[600,'Titular'],[1200,'Capitán'],[1900,'Leyenda del Espartano']];
+
+let p,st,B;
+
+/* ---------- Utilidades de interfaz ---------- */
+function top(){return `<div class="rq-top"><span>${CL[p.c].e} <b>${CL[p.c].n}</b> Nv <b>${p.lvl}</b></span><span>XP <b>${p.xp}/${p.lvl*50}</b></span><span>🧴 <b>${p.pots}</b></span><span>Puntos <b>${p.score}</b></span><button id="rq-snd">${mute?'🔇':'🔊'} Sonido</button></div>`}
+function bindSnd(){const b=$('rq-snd');if(b)b.onclick=()=>{mute=!mute;b.textContent=(mute?'🔇':'🔊')+' Sonido'}}
+function float(id,txt,color){const u=$(id),f=document.createElement('div');f.className='rq-f';f.style.color=color;f.textContent=txt;u.appendChild(f);setTimeout(()=>f.remove(),1100)}
+function anim(id,cls,ms){const u=$(id);u.classList.add(cls);setTimeout(()=>u.classList.remove(cls),ms)}
+const log=t=>{$('rq-log').innerHTML=t};
+
+/* ---------- Pantallas ---------- */
+function intro(){
+  app.innerHTML=`<div class="rq-pad"><div class="label" style="color:#CE2B37">Zona de Hinchas</div><div class="rq-h">La Senda<br>del Espartano</div>
+  <p class="rq-sub">La Copa KTC está en peligro. Cinco rivales, cada uno más duro, se interponen entre tu equipo y el título. Elige tu jugador, administra tu energía y lee las intenciones del rival para vencer.</p>
+  <button class="rq-btn" id="rq-go">Elegir jugador</button></div>`;
+  $('rq-go').onclick=seleccion;
 }
-function overlay(h){ov.innerHTML=h;ov.classList.remove('pk-h')}
-const overlayOff=()=>ov.classList.add('pk-h');
-function tarjeta(t,s,b,top){overlay(`<div class="label" style="color:#CE2B37">${top||'Zona de Hinchas'}</div><div class="pk-big">${t}</div><p class="pk-sub">${s}</p><button class="pk-btn">${b}</button>`);return new Promise(r=>ov.querySelector('button').onclick=()=>{au();overlayOff();r()})}
-function reset(){
-  [gk,sh,ball].forEach(e=>e.getAnimations().forEach(a=>a.cancel()));
-  gk.style.transition='none';place(gk,50,48);gk.style.transform='translate(-50%,-50%)';gk.classList.remove('dv');
-  place(sh,43,89);place(ball,50,86);ball.style.transform='translate(-50%,-50%)';
-  void gk.offsetWidth;gk.style.transition='';world.style.transform='';
+function seleccion(){
+  app.innerHTML=`<div class="rq-pad"><div class="rq-h" style="font-size:1.6rem">Elige tu posición</div><div class="rq-grid">${Object.entries(CL).map(([k,c])=>`<div class="rq-card" data-k="${k}"><div class="e">${c.e}</div><b>${c.n}</b><small>${c.txt}</small><small>❤️ ${c.hp} · ⚔️ ${c.atk} · 🛡️ ${c.def} · ⚡ ${c.en}</small><small style="color:#EAB308">${c.hab}: ${c.desc}</small></div>`).join('')}</div></div>`;
+  app.querySelectorAll('.rq-card').forEach(c=>c.onclick=()=>nuevo(c.dataset.k));
 }
-function roles(tira){gk.style.setProperty('--kc',tira?RIV[S.st].c:'#00A651');sh.style.setProperty('--kc',tira?'#00A651':RIV[S.st].c)}
-function dive(x,y){place(gk,x,y);gk.style.transform=`translate(-50%,-50%) rotate(${cl((x-50)*1.2,-40,40)}deg)`;gk.classList.add('dv')}
-const runup=()=>sh.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-5%,-55%)'}],{duration:280,fill:'forwards',easing:'ease-in'}).finished;
-function fly(tx,ty,ms){return new Promise(r=>{ball.animate([{left:'50%',top:'86%',transform:'translate(-50%,-50%) scale(1)'},{left:(50+tx)/2+'%',top:(86+ty)/2-5+'%',transform:'translate(-50%,-50%) scale(.75) rotate(300deg)',offset:.5},{left:tx+'%',top:ty+'%',transform:'translate(-50%,-50%) scale(.5) rotate(720deg)'}],{duration:ms,easing:'cubic-bezier(.3,.1,.5,1)',fill:'forwards'}).onfinish=r})}
-function judge(tx,ty){
-  if(tx>G.x0&&tx<G.x1&&ty>G.y0&&ty<G.y1){return Math.min(tx-G.x0,G.x1-tx,ty-G.y0)<1.4&&Math.random()<.3?'palo':'dentro'}
-  return tx>G.x0-2.5&&tx<G.x1+2.5&&ty>G.y0-3&&ty<G.y1?'palo':'fuera';
+function nuevo(k){const c=CL[k];p={c:k,lvl:1,xp:0,hp:c.hp,mhp:c.hp,atk:c.atk,def:c.def,en:c.en,men:c.en,pots:3,score:0,turns:0};st=0;mapa()}
+function mapa(){
+  const nodes=EN.map((e,i)=>`<div class="rq-n ${i<st?'done':i===st?'cur':'lock'}">${i<st?'✓':e.e}</div>`).join('<div class="rq-l"></div>');
+  const e=EN[st];
+  app.innerHTML=top()+`<div class="rq-pad"><div class="label" style="color:#CE2B37">Ronda ${st+1} de ${EN.length}</div><div class="rq-map">${nodes}</div>
+  <div class="rq-h" style="font-size:1.9rem;margin-top:14px">${e.boss?'¡Jefe final!':'Próximo rival'}</div>
+  <div style="font-size:54px;margin:8px 0">${e.e}</div><b style="text-transform:uppercase">${e.n}</b>
+  <p class="rq-sub">❤️ ${e.hp} · ⚔️ ${e.atk}${e.boss?' · Cambia de táctica y pega muy fuerte':''}</p>
+  <p class="rq-sub">Tu estado: ❤️ ${p.hp}/${p.mhp} · ⚡ ${p.en}/${p.men}</p>
+  <button class="rq-btn" id="rq-fight">Salir a la cancha</button></div>`;
+  bindSnd();$('rq-fight').onclick=batalla;
 }
 
-/* ---------- Entrada ---------- */
-const pt=e=>{const r=sc.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*100,y:(e.clientY-r.top)/r.height*100}};
-const input=()=>new Promise(r=>S.res=r);
-sc.addEventListener('pointerdown',e=>{au();if(!S.res)return;const r=S.res;S.res=null;r(pt(e))});
-sc.addEventListener('pointermove',e=>{if(S.phase==='aim'&&e.pointerType==='mouse'){const p=pt(e);place(ret,cl(p.x,G.x0-7,G.x1+7),cl(p.y,G.y0-7,G.y1-1))}});
-function powerLoop(){return new Promise(res=>{const t0=performance.now(),sp=1.1+.3*S.st;let raf;const loop=t=>{const ph=((t-t0)/1000*sp)%2,v=ph<1?ph:2-ph;pm.style.left=`calc(${v*100}% - 3px)`;S.pv=v;raf=requestAnimationFrame(loop)};raf=requestAnimationFrame(loop);S.res=()=>{cancelAnimationFrame(raf);res(S.pv)}})}
-
-/* ---------- Resultado de cada tiro ---------- */
-async function cierre(kind,mine,perfect,tx,ty){
-  const arr=mine?S.yp:S.rp;
-  if(kind==='gol'){
-    arr.push('g');goal.animate([{transform:'scale(1)'},{transform:'scale(1.05,1.07)'},{transform:'scale(1)'}],{duration:550});SND.gol();
-    if(mine){S.ys++;S.goles++;S.puntos+=(100+(perfect?50:0))*S.combo;S.combo++;fl('rgba(0,166,81,.5)');confeti(60);world.classList.add('fest');setTimeout(()=>world.classList.remove('fest'),1800)}
-    else{S.rs++;S.combo=1;fl('rgba(206,43,55,.45)');shake()}
-    hud();await say(mine?(S.combo>3?'<span style="color:#EAB308">¡En racha!</span>':'<span style="color:#00A651">¡Goooool!</span>'):'<span style="color:#CE2B37">Gol rival</span>',1300);
-  }else if(kind==='ataja'){
-    arr.push('f');SND.ataja();ball.animate([{left:tx+'%',top:ty+'%',transform:'translate(-50%,-50%) scale(.5)'},{left:tx+(tx<50?-14:14)+'%',top:ty+22+'%',transform:'translate(-50%,-50%) scale(.7) rotate(500deg)'}],{duration:450,fill:'forwards'});
-    if(mine){S.combo=1;fl('rgba(206,43,55,.4)');shake()}else{S.paradas++;S.puntos+=150*S.combo;S.combo++;fl('rgba(0,166,81,.45)');confeti(35)}
-    hud();await say(mine?'¡Atajó!':'<span style="color:#00A651">¡Tapadón!</span>',1150);
+/* ---------- Batalla ---------- */
+function intent(){const r=Math.random(),boss=EN[st].boss;B.intent=r<.5?'atk':r<(boss?.85:.8)?'heavy':'guard'}
+function batalla(){
+  const e=EN[st];B={e:{...e},intent:'atk',stun:0,shield:0,def:false,busy:false};intent();
+  app.innerHTML=top()+`<div class="rq-scene" style="--a:${e.bg[0]};--b:${e.bg[1]}">
+    <div class="rq-int" id="rq-int"></div>
+    <div class="rq-u h" id="rq-ph"><div class="rq-nm">${CL[p.c].n}</div><div class="rq-bar"><i id="rq-phb" style="background:#00A651"></i><em id="rq-pht"></em></div><div class="rq-bar sm"><i id="rq-pen" style="background:#3b82f6"></i></div><span class="rq-sp">${CL[p.c].e}</span></div>
+    <div class="rq-u e ${e.boss?'boss':''}" id="rq-pe"><div class="rq-nm">${e.n}</div><div class="rq-bar"><i id="rq-ehb" style="background:#CE2B37"></i><em id="rq-eht"></em></div><span class="rq-sp">${e.e}</span></div>
+  </div>
+  <div class="rq-box"><div class="rq-log" id="rq-log"></div><div class="rq-acts">
+    <button class="rq-a" id="rq-b1"><b>⚽ Regate</b><small>Ataque básico · +12 EN</small></button>
+    <button class="rq-a" id="rq-b2"><b>✨ ${CL[p.c].hab}</b><small>${CL[p.c].desc}</small></button>
+    <button class="rq-a" id="rq-b3"><b>🛡️ Defender</b><small>Daño recibido -55% · +18 EN</small></button>
+    <button class="rq-a" id="rq-b4"><b>🧴 Isotónico</b><small id="rq-pt">Cura 45 de vida</small></button></div></div>`;
+  bindSnd();
+  $('rq-b1').onclick=()=>act('atk');$('rq-b2').onclick=()=>act('hab');$('rq-b3').onclick=()=>act('def');$('rq-b4').onclick=()=>act('pot');
+  log(e.boss?'¡El <b>Rey del VAR</b> revisa tu jugada! Prepárate.':`¡Aparece <b>${e.n}</b>!`);upd();
+}
+function upd(){
+  const E=B.e;
+  $('rq-phb').style.width=p.hp/p.mhp*100+'%';$('rq-pht').textContent=p.hp+' / '+p.mhp;
+  $('rq-pen').style.width=p.en/p.men*100+'%';
+  $('rq-ehb').style.width=E.hp/EN[st].hp*100+'%';$('rq-eht').textContent=E.hp+' / '+EN[st].hp;
+  $('rq-int').textContent=B.stun>0?'💫 Aturdido: perderá su turno':INT[B.intent];
+  $('rq-ph').classList.toggle('shd',B.shield>0);$('rq-pe').classList.toggle('stun',B.stun>0);
+  $('rq-b1').disabled=B.busy;$('rq-b2').disabled=B.busy||p.en<CL[p.c].cost;
+  $('rq-b3').disabled=B.busy;$('rq-b4').disabled=B.busy||p.pots<1||p.hp>=p.mhp;
+  $('rq-pt').textContent=`Cura 45 de vida · quedan ${p.pots}`;
+}
+function dmg(m){
+  const E=B.e;let v=p.atk*rnd(.85,1.15)*m;const crit=Math.random()<.15;if(crit)v*=1.6;
+  if(B.intent==='guard'&&B.stun<=0)v*=.5;v=Math.round(v);E.hp=Math.max(0,E.hp-v);p.score+=v;
+  anim('rq-pe','hit',450);float('rq-pe',(crit?'¡CRÍTICO! ':'')+'-'+v,crit?'#EAB308':'#fff');crit?SND.crit():SND.hit();return{v,crit};
+}
+async function act(a){
+  if(B.busy)return;B.busy=true;upd();p.turns++;B.def=false;const E=B.e;let msg='';
+  if(a==='atk'||a==='hab')anim('rq-ph','atk',350);
+  if(a==='atk'){
+    p.en=Math.min(p.men,p.en+12);
+    if(Math.random()<.92){const r=dmg(1);msg=`Regateas y disparas: <b>${r.v}</b> de daño${r.crit?' ¡crítico!':''}.`}
+    else{float('rq-pe','¡Falla!','#94a3b8');msg='¡Te la quitan! El disparo se va desviado.'}
+  }else if(a==='hab'){
+    p.en-=CL[p.c].cost;
+    if(p.c==='d'){const r=dmg(2.3);msg=`¡<b>Chilena</b> espectacular! ${r.v} de daño.`}
+    else if(p.c==='m'){const r=dmg(1.5);B.stun=1;msg=`<b>Pase filtrado</b>: ${r.v} de daño y el rival queda aturdido.`}
+    else{const r=dmg(.6);B.shield=2;float('rq-ph','🛡️ Escudo','#3b82f6');msg=`<b>Muralla</b>: golpeas (${r.v}) y reduces el daño recibido durante 2 turnos.`}
+  }else if(a==='def'){
+    B.def=true;p.en=Math.min(p.men,p.en+18);msg='Te cubres y recuperas energía.';float('rq-ph','+18 EN','#3b82f6');
   }else{
-    arr.push('f');if(kind==='palo'){SND.palo();shake()}else SND.out();
-    if(mine)S.combo=1;hud();await say(kind==='palo'?'¡Al palo!':'¡Afuera!',1150);
+    p.pots--;p.hp=Math.min(p.mhp,p.hp+45);msg='Tomas un isotónico: recuperas vida.';float('rq-ph','+45','#00A651');SND.heal();
   }
-  world.style.transform='';
+  log(msg);upd();await sleep(900);
+  if(E.hp<=0)return victoria();
+
+  // Turno rival
+  if(B.stun>0){B.stun--;log(`<b>${E.n}</b> sigue aturdido y pierde el turno.`)}
+  else{
+    const mult={atk:1,heavy:1.9,guard:.5}[B.intent];
+    let v=E.atk*mult*rnd(.85,1.15)-p.def*.6;if(B.def)v*=.45;if(B.shield>0)v*=.3;v=Math.max(1,Math.round(v));
+    p.hp=Math.max(0,p.hp-v);anim('rq-pe','atk',350);await sleep(220);anim('rq-ph','hit',450);
+    float('rq-ph','-'+v,'#CE2B37');SND.hurt();
+    log(`<b>${E.n}</b> ${B.intent==='heavy'?'te barre con una entrada brutal':B.intent==='guard'?'contraataca desde la defensa':'te ataca'}: <b>${v}</b> de daño${B.def?' (reducido por tu defensa)':''}.`);
+  }
+  if(B.shield>0)B.shield--;
+  upd();await sleep(900);
+  if(p.hp<=0)return fin(false);
+  intent();B.busy=false;upd();
 }
 
-/* ---------- Turnos ---------- */
-async function tiroJugador(){
-  roles(true);reset();S.phase='aim';ret.classList.remove('pk-h','lock');ret.classList.remove('lock');place(ret,S.aim.x,S.aim.y);dz.classList.add('pk-h');$('pk-tmw').classList.add('pk-h');pw.style.opacity=.35;
-  hint.innerHTML='<b>Apunta</b> y haz clic para fijar el ángulo';
-  const a=await input();S.aim={x:cl(a.x,G.x0-7,G.x1+7),y:cl(a.y,G.y0-7,G.y1-1)};place(ret,S.aim.x,S.aim.y);ret.classList.add('lock');
-  S.phase='power';pw.style.opacity=1;hint.innerHTML='Haz clic en la <b style="color:#00A651">zona verde</b> para potencia perfecta';
-  const p=await powerLoop();S.phase='busy';pw.style.opacity=.35;
-  const dev=p<.62?.62-p:p>.88?p-.88:0,j=dev*22,perfect=dev===0;
-  const tx=S.aim.x+rnd(-j,j);let ty=S.aim.y+rnd(-j,j)*.8;if(p>.93)ty-=12;
-  const L=S.st,guess=Math.random()<.28+.07*L+(Math.abs(S.aim.x-50)<7?.2:0);
-  const kd=guess?{x:S.aim.x+rnd(-4,4),y:S.aim.y+rnd(-4,4)}:{x:rnd(G.x0+5,G.x1-5),y:rnd(G.y0+4,G.y1-3)};
-  const reach=(13+L*1.8)*(p<.35?1.5:p>.8?.85:1),out=judge(tx,ty);
-  const res=out==='dentro'?(Math.hypot((kd.x-tx)*1.6,kd.y-ty)<reach?'ataja':'gol'):out;
-  ret.classList.add('pk-h');
-  await runup();SND.kick();world.style.transform='scale(1.08)';
-  const ms=cl(780-p*380,380,760);setTimeout(()=>dive(kd.x,kd.y),ms*.25);
-  await fly(tx,ty,ms);await cierre(res,true,perfect,tx,ty);
-}
-async function tiroRival(){
-  roles(false);reset();ret.classList.add('pk-h');pw.style.opacity=.35;dz.classList.remove('pk-h');S.phase='wait';
-  hint.innerHTML='Rival al penal… <b>prepárate</b>';await sleep(900);
-  const T=Math.max(900,1500-S.st*150),tm=$('pk-tm');$('pk-tmw').classList.remove('pk-h');tm.style.transition='none';tm.style.width='100%';void tm.offsetWidth;tm.style.transition='width '+T+'ms linear';tm.style.width='0%';
-  S.phase='def';hint.innerHTML='¡<b>Haz clic</b> hacia donde te lanzarás!';
-  const pick=await Promise.race([input(),sleep(T).then(()=>null)]);S.res=null;S.phase='busy';dz.classList.add('pk-h');$('pk-tmw').classList.add('pk-h');
-  const W=G.x1-G.x0,H=G.y1-G.y0,zc=(c,r)=>({x:G.x0+(c+.5)*W/3,y:G.y0+(r?.74:.26)*H});
-  const mine=pick?{c:cl(Math.floor((pick.x-G.x0)/W*3),0,2),r:pick.y<G.y0+H/2?0:1}:null;
-  const c=[0,0,1,2,2][Math.floor(Math.random()*5)],r=Math.random()<.55?0:1,z=zc(c,r);
-  let tx=z.x+rnd(-3,3),ty=z.y+rnd(-2,2),kind='gol';
-  if(Math.random()<.1){kind='fuera';tx=c===0?G.x0-7:G.x1+7}
-  else if(mine&&(mine.c===c&&(mine.r===r||Math.random()<.35)))kind='ataja';
-  else if(Math.random()<.08){kind='palo';tx=c===0?G.x0:G.x1}
-  await runup();SND.kick();world.style.transform='scale(1.08)';
-  if(mine){const m=zc(mine.c,mine.r);setTimeout(()=>dive(m.x,m.y),120)}
-  await fly(tx,ty,Math.max(380,540-S.st*40));await cierre(kind,false,false,tx,ty);
-}
-function decidir(){
-  const yR=3-S.yk,rR=3-S.rk;
-  if(S.yk<=3&&S.rk<=3&&!(S.yk===3&&S.rk===3)){if(S.ys>S.rs+Math.max(0,rR))return'w';if(S.rs>S.ys+Math.max(0,yR))return'l';return null}
-  return S.yk===S.rk&&S.ys!==S.rs?(S.ys>S.rs?'w':'l'):null;
-}
-async function partido(){
-  S.ys=S.rs=S.yk=S.rk=0;S.yp=[];S.rp=[];S.combo=1;reset();roles(true);hud();
-  const R=RIV[S.st];
-  overlay(`<div class="label" style="color:#CE2B37">Ronda ${S.st+1} de 4</div><div class="pk-big">${ETAPAS[S.st]}</div><div class="pk-vs"><b>KTC</b><span>VS</span><b style="color:${R.c}">${R.n}</b></div><p class="pk-sub">Tanda de 3 penales: tú pateas, luego atajas. Si empatan, muerte súbita.</p>`);
-  SND.whistle();await sleep(2400);overlayOff();
-  for(;;){
-    if(S.yk===S.rk){await tiroJugador();S.yk++}else{await tiroRival();S.rk++}
-    hud();const d=decidir();if(d)return d==='w';await sleep(350);
-  }
+/* ---------- Victoria, subida de nivel y recompensa ---------- */
+async function victoria(){
+  SND.win();const E=EN[st];p.score+=500;
+  let sube=0;p.xp+=E.xp;
+  while(p.xp>=p.lvl*50){p.xp-=p.lvl*50;p.lvl++;p.mhp+=12;p.atk+=2;p.def+=1;p.men+=3;sube++}
+  p.hp=Math.min(p.mhp,p.hp+Math.round(p.mhp*(sube?.4:.25)));p.en=p.men;
+  if(st===EN.length-1)return fin(true);
+  app.innerHTML=top()+`<div class="rq-pad"><div class="rq-h" style="color:#00A651">¡Victoria!</div>
+  <p class="rq-sub">Derrotaste a <b>${E.n}</b>. +${E.xp} XP y +500 puntos. Recuperas algo de vida y toda tu energía.</p>
+  ${sube?`<p class="rq-sub" style="color:#EAB308">⬆️ ¡Subes al nivel ${p.lvl}! (+12 vida, +2 ataque, +1 defensa)</p>`:''}
+  <div class="rq-h" style="font-size:1.3rem;margin-top:20px">Elige una mejora</div>
+  <div class="rq-grid">${shuf(REW).slice(0,3).map((r,i)=>`<div class="rq-card" data-i="${REW.indexOf(r)}"><div class="e">${r.e}</div><b>${r.t}</b><small>${r.d}</small></div>`).join('')}</div></div>`;
+  bindSnd();
+  app.querySelectorAll('.rq-card').forEach(c=>c.onclick=()=>{REW[+c.dataset.i].f(p);st++;mapa()});
 }
 
-/* ---------- Copa y fin ---------- */
-const leer=()=>{try{return JSON.parse(localStorage.getItem('recordsKTC')||'[]')}catch(e){return[]}};
-function ranking(){const r=leer().slice(0,5),b=$('pk-ranking');if(!r.length){b.classList.add('pk-h');return}b.classList.remove('pk-h');b.innerHTML='<div class="label text-muted mb-2">Mejores marcas</div>'+r.map((x,i)=>`<div class="flex justify-between py-1" style="color:${i?'#fff':'#EAB308'}"><span>${i+1}. ${x.nombre}</span><span>${x.puntos} pts</span></div>`).join('')}
-async function fin(win){
-  S.phase='idle';reset();
-  if(win){S.puntos+=2000;hud();SND.win();confeti(100);await sleep(400);confeti(100);await say('<span style="color:#EAB308">¡Campeones!</span>',1800)}
-  else await say('<span style="color:#CE2B37">Eliminados</span>',1500);
-  $('pk-m-emoji').textContent=win?'🏆':'🥅';$('pk-m-titulo').textContent=win?'¡Campeón de la Copa KTC!':'Eliminado en '+ETAPAS[S.st];
-  $('pk-m-goles').textContent=S.goles;$('pk-m-par').textContent=S.paradas;$('pk-m-puntos').textContent=S.puntos;
-  $('pk-form').classList.remove('pk-h');ranking();modal.classList.remove('hidden');setTimeout(()=>modal.classList.add('opacity-100'),10);
+/* ---------- Final y ranking ---------- */
+const leer=()=>{try{return JSON.parse(localStorage.getItem('rpgKTC')||'[]')}catch(e){return[]}};
+function ranking(){const r=leer().slice(0,5);return r.length?`<div class="rq-rk"><div class="label" style="color:#94a3b8">Mejores marcas</div>${r.map((x,i)=>`<div style="color:${i?'#fff':'#EAB308'}"><span>${i+1}. ${x.nombre}</span><span>${x.puntos} pts</span></div>`).join('')}</div>`:''}
+function fin(win){
+  win?SND.win():SND.lose();
+  p.score+=p.hp*2+(win?2000:0);
+  const rango=[...NIVELES].reverse().find(n=>p.score>=n[0])[1];
+  app.innerHTML=top()+`<div class="rq-pad"><div style="font-size:64px">${win?'🏆':'🥅'}</div>
+  <div class="rq-h" style="color:${win?'#EAB308':'#CE2B37'}">${win?'¡Campeón de la Copa KTC!':'Eliminado en la ronda '+(st+1)}</div>
+  <p class="rq-sub">${win?'Derrotaste al Rey del VAR y el Espartano levanta el trofeo.':'Cayó el equipo frente a '+EN[st].n+'. Vuelve a intentarlo con otra posición o mejor estrategia.'}</p>
+  <p class="rq-sub">Nivel <b>${p.lvl}</b> · ${p.turns} turnos · <b style="color:#EAB308">${p.score} puntos</b> · Rango: <b>${rango}</b></p>
+  <div id="rq-save"><input class="rq-in" id="rq-name" maxlength="18" placeholder="Tu nombre o apodo"><br><button class="rq-btn" id="rq-sv" style="margin-top:10px">Guardar récord</button></div>
+  <div id="rq-rk">${ranking()}</div><br><button class="rq-btn" id="rq-again" style="background:transparent;border:1px solid #475569">Jugar de nuevo</button></div>`;
+  bindSnd();$('rq-again').onclick=seleccion;
+  $('rq-sv').onclick=()=>{
+    const nombre=$('rq-name').value.trim().slice(0,18);if(!nombre)return;
+    const rs=leer();rs.push({nombre,puntos:p.score,fecha:new Date().toISOString()});rs.sort((a,b)=>b.puntos-a.puntos);
+    try{localStorage.setItem('rpgKTC',JSON.stringify(rs.slice(0,10)))}catch(e){}
+    $('rq-save').remove();$('rq-rk').innerHTML=ranking();
+  };
 }
-async function main(){
-  S.puntos=0;S.combo=1;S.goles=0;S.paradas=0;
-  for(S.st=0;S.st<4;S.st++){
-    const w=await partido();if(!w)return fin(false);
-    S.puntos+=500*(S.st+1);hud();confeti(60);SND.win();
-    if(S.st<3)await tarjeta('¡Clasificado!','Avanzas a '+ETAPAS[S.st+1]+'. +'+500*(S.st+1)+' puntos.','Siguiente ronda','Ronda superada');
-  }
-  S.st=3;fin(true);
-}
-$('pk-otra').onclick=()=>{modal.classList.add('hidden');modal.classList.remove('opacity-100');main()};
-$('pk-form').addEventListener('submit',e=>{
-  e.preventDefault();const nombre=$('pk-nombre').value.trim().slice(0,18);if(!nombre)return;
-  const rs=leer();rs.push({nombre,goles:S.goles,puntos:S.puntos,fecha:new Date().toISOString()});rs.sort((a,b)=>b.puntos-a.puntos);
-  try{localStorage.setItem('recordsKTC',JSON.stringify(rs.slice(0,10)))}catch(_){}
-  $('pk-form').classList.add('pk-h');ranking();
-});
-reset();roles(true);hud();hint.innerHTML='';
-tarjeta('Copa KTC','Cuatro rondas. Apunta con el cursor, fija la potencia en la zona verde y, cuando atajes, elige hacia dónde lanzarte.','Jugar').then(main);
+
+intro();
 })();
 </script>
 <!-- ================= TEST: ÍNDICE DE CULTURA FUTBOLÍSTICA (ICF) ================= -->
