@@ -645,7 +645,284 @@
       </div>
     </div>
   </section>
+<!-- ================= JUEGO: TANDA DE PENALES KTC ================= -->
+<section id="juego-penales" class="py-24 border-t border-line bg-base relative overflow-hidden">
+  
+  <!-- Fondo de estadio sutil -->
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00A651]/10 via-base to-base pointer-events-none"></div>
 
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <div class="text-center mb-10">
+      <div class="label text-rojo mb-3">Zona de Hinchas</div>
+      <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Tanda de Penales</h2>
+      <p class="text-muted mt-3 text-sm">Demuestra que tienes la sangre fría del Espartano. ¿Cuántos puedes meter?</p>
+    </div>
+
+    <!-- Interfaz del Juego -->
+    <div class="bg-panel border border-line p-6 sm:p-8 relative max-w-2xl mx-auto shadow-2xl">
+      
+      <!-- Marcador superior -->
+      <div class="flex justify-between items-center mb-6 border-b border-line pb-4">
+        <div class="text-center">
+          <div class="label text-muted mb-1">Goles</div>
+          <div id="penales-goles" class="font-display font-extrabold text-4xl text-verde">0</div>
+        </div>
+        <div class="text-center">
+          <div class="label text-muted mb-1">Racha (Combo)</div>
+          <div id="penales-combo" class="font-display font-bold text-2xl text-muted">x1</div>
+        </div>
+        <div class="text-center">
+          <div class="label text-muted mb-1">Puntos</div>
+          <div id="penales-puntos" class="font-display font-extrabold text-4xl text-blanco">0</div>
+        </div>
+      </div>
+
+      <!-- Área de tiro (El arco) -->
+      <div class="relative w-full aspect-[2/1] bg-[#0B111A] border-4 border-blanco/20 overflow-hidden" id="penales-arco">
+        <!-- Red del arco (SVG de fondo) -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
+        
+        <!-- El Arquero -->
+        <div id="penales-arquero" class="absolute w-20 h-24 bottom-0 transition-all duration-300 ease-out flex flex-col items-center justify-end" style="left: 50%; transform: translateX(-50%);">
+          <div class="w-12 h-12 bg-rojo rounded-full mb-1 relative z-10 flex items-center justify-center text-blanco font-display font-bold">A</div>
+          <div class="w-16 h-12 bg-rojo rounded-t-lg"></div>
+        </div>
+
+        <!-- Zonas de tiro (Los 6 lugares donde se puede patear) -->
+        <div class="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-1 p-2">
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-izq"></button>
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-centro"></button>
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-der"></button>
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-izq"></button>
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-centro"></button>
+          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-der"></button>
+        </div>
+
+        <!-- El Balón (oculto inicialmente) -->
+        <div id="penales-balon" class="absolute w-6 h-6 bg-blanco rounded-full hidden z-20 shadow-lg" style="bottom: 10%; left: 50%; transform: translateX(-50%);"></div>
+        
+        <!-- Texto de Feedback -->
+        <div id="penales-feedback" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+          <span class="font-display font-black text-6xl uppercase tracking-widest text-blanco drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">¡GOL!</span>
+        </div>
+      </div>
+
+      <!-- Instrucción -->
+      <div class="text-center mt-4">
+        <p id="penales-instruccion" class="font-display font-bold text-xl uppercase tracking-wider text-verde animate-pulse">Haz clic en un ángulo para disparar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal de Récord (Oculto) -->
+<div id="modal-record" class="fixed inset-0 bg-base/90 backdrop-blur-md z-[200] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+  <div class="bg-panel border border-verde p-8 max-w-md w-full mx-4 text-center shadow-[0_0_50px_rgba(0,166,81,0.3)]">
+    <div class="w-16 h-16 bg-verde/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-verde">
+      <span class="text-3xl">🏆</span>
+    </div>
+    <h3 class="font-display font-bold uppercase text-3xl text-blanco mb-2">¡Gran Tanda!</h3>
+    <p class="text-muted text-sm mb-6">Anotaste <strong id="record-goles" class="text-verde">0</strong> goles y sumaste <strong id="record-puntos" class="text-blanco">0</strong> puntos.</p>
+    
+    <form id="form-record" class="space-y-4">
+      <div>
+        <label class="label block text-left mb-1">Tu Nombre / Apodo</label>
+        <input type="text" id="record-nombre" required placeholder="Ej: El Zancudo" class="w-full bg-base border border-line p-3 text-blanco text-sm focus:border-verde outline-none">
+      </div>
+      <button type="submit" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">
+        Guardar Récord
+      </button>
+    </form>
+    <button id="btn-cerrar-modal" class="mt-4 text-xs text-muted underline hover:text-blanco">Jugar de nuevo</button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Elementos del DOM
+    const zonasTiro = document.querySelectorAll('.zona-tiro');
+    const arquero = document.getElementById('penales-arquero');
+    const balon = document.getElementById('penales-balon');
+    const feedback = document.getElementById('penales-feedback');
+    const textGoles = document.getElementById('penales-goles');
+    const textCombo = document.getElementById('penales-combo');
+    const textPuntos = document.getElementById('penales-puntos');
+    const instruccion = document.getElementById('penales-instruccion');
+    
+    // Modal
+    const modal = document.getElementById('modal-record');
+    const formRecord = document.getElementById('form-record');
+    const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+    const recordGoles = document.getElementById('record-goles');
+    const recordPuntos = document.getElementById('record-puntos');
+
+    // Variables de estado
+    let goles = 0;
+    let puntos = 0;
+    let combo = 1;
+    let tirosTotales = 0;
+    let juegoActivo = true;
+
+    // Posiciones del arquero
+    const posiciones = ['izq', 'centro', 'der'];
+    const alturas = ['arriba', 'abajo'];
+
+    // Resetear juego
+    function resetJuego() {
+      goles = 0; puntos = 0; combo = 1; tirosTotales = 0; juegoActivo = true;
+      actualizarUI();
+      instruccion.textContent = "Haz clic en un ángulo para disparar";
+      instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-verde animate-pulse";
+      modal.classList.add('hidden');
+      modal.classList.remove('opacity-100');
+      zonasTiro.forEach(z => z.style.pointerEvents = 'auto');
+    }
+
+    // Actualizar interfaz
+    function actualizarUI() {
+      textGoles.textContent = goles;
+      textPuntos.textContent = puntos;
+      textCombo.textContent = `x${combo}`;
+      
+      if (combo > 1) {
+        textCombo.className = "font-display font-bold text-2xl text-yellow-500";
+      } else {
+        textCombo.className = "font-display font-bold text-2xl text-muted";
+      }
+    }
+
+    // Lógica de tiro
+    zonasTiro.forEach(zona => {
+      zona.addEventListener('click', () => {
+        if (!juegoActivo) return;
+        
+        juegoActivo = false;
+        zonasTiro.forEach(z => z.style.pointerEvents = 'none');
+        instruccion.textContent = "Espera...";
+        instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-muted";
+
+        const zonaElegida = zona.getAttribute('data-zona'); // ej: "arriba-izq"
+        const [alturaElegida, ladoElegido] = zonaElegida.split('-');
+        
+        // IA del Arquero: A mayor dificultad (más goles), más chances de adivinar
+        const probabilidadAtajada = Math.min(0.2 + (goles * 0.05), 0.6); // De 20% a 60% máximo
+        const arqueroAdivina = Math.random() < probabilidadAtajada;
+        
+        // Si adivina, se tira al mismo lado. Si no, se tira a un lado aleatorio.
+        let ladoArquero, alturaArquero;
+        if (arqueroAdivina) {
+          ladoArquero = ladoElegido;
+          alturaArquero = alturaElegida;
+        } else {
+          ladoArquero = posiciones[Math.floor(Math.random() * posiciones.length)];
+          alturaArquero = alturas[Math.floor(Math.random() * alturas.length)];
+        }
+
+        // Mover al arquero visualmente
+        const desplazamientoX = ladoArquero === 'izq' ? '-120px' : (ladoArquero === 'der' ? '120px' : '0px');
+        const desplazamientoY = alturaArquero === 'arriba' ? '-40px' : '0px';
+        arquero.style.transform = `translateX(calc(-50% + ${desplazamientoX})) translateY(${desplazamientoY})`;
+        
+        // Animar el balón hacia la zona elegida
+        balon.classList.remove('hidden');
+        const balonX = ladoElegido === 'izq' ? '10%' : (ladoElegido === 'der' ? '90%' : '50%');
+        const balonY = alturaElegida === 'arriba' ? '20%' : '60%';
+        
+        setTimeout(() => {
+          balon.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          balon.style.left = balonX;
+          balon.style.bottom = balonY;
+          balon.style.transform = 'translateX(-50%) scale(0.5)';
+        }, 50);
+
+        // Resolver el tiro después de la animación
+        setTimeout(() => {
+          tirosTotales++;
+          
+          if (arqueroAdivina) {
+            // ATAJADA
+            feedback.innerHTML = '<span class="text-rojo drop-shadow-[0_0_20px_rgba(206,43,55,0.8)]">¡ATAJADA!</span>';
+            feedback.classList.remove('opacity-0');
+            combo = 1; // Romper racha
+            if(navigator.vibrate) navigator.vibrate([100, 50, 100]); // Vibrar si es móvil
+          } else {
+            // GOL
+            feedback.innerHTML = '<span class="text-verde drop-shadow-[0_0_20px_rgba(0,166,81,0.8)]">¡GOL!</span>';
+            feedback.classList.remove('opacity-0');
+            goles++;
+            
+            // Sistema de condicionamiento operante
+            const puntosBase = 100;
+            puntos += puntosBase * combo;
+            combo++;
+            
+            if (combo >= 3) {
+              feedback.innerHTML = '<span class="text-yellow-500 text-7xl drop-shadow-[0_0_30px_rgba(212,175,55,0.8)]">¡EN RACHA!</span>';
+              if(navigator.vibrate) navigator.vibrate(50);
+            } else {
+              if(navigator.vibrate) navigator.vibrate(30);
+            }
+          }
+
+          // Limpiar feedback
+          setTimeout(() => {
+            feedback.classList.add('opacity-0');
+            balon.classList.add('hidden');
+            balon.style.transition = 'none';
+            balon.style.left = '50%';
+            balon.style.bottom = '10%';
+            balon.style.transform = 'translateX(-50%) scale(1)';
+            arquero.style.transform = 'translateX(-50%) translateY(0)'; // Volver al centro
+
+            // Condición de término (5 tiros)
+            if (tirosTotales >= 5) {
+              terminarJuego();
+            } else {
+              juegoActivo = true;
+              actualizarUI();
+              instruccion.textContent = "Siguiente tiro. ¡Concéntrate!";
+              instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-verde";
+              zonasTiro.forEach(z => z.style.pointerEvents = 'auto');
+            }
+          }, 1500);
+        }, 500);
+      });
+    });
+
+    // Terminar juego y mostrar modal
+    function terminarJuego() {
+      instruccion.textContent = "Tanda finalizada.";
+      instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-muted";
+      
+      recordGoles.textContent = goles;
+      recordPuntos.textContent = puntos;
+      
+      setTimeout(() => {
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.add('opacity-100'), 10);
+      }, 500);
+    }
+
+    // Cerrar modal y reiniciar
+    btnCerrarModal.addEventListener('click', resetJuego);
+    
+    formRecord.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('record-nombre').value;
+      
+      // Guardar en LocalStorage
+      const record = { nombre, goles, puntos, fecha: new Date().toISOString() };
+      let records = JSON.parse(localStorage.getItem('recordsKTC') || '[]');
+      records.push(record);
+      records.sort((a, b) => b.puntos - a.puntos); // Ordenar por puntos
+      localStorage.setItem('recordsKTC', JSON.stringify(records.slice(0, 10))); // Top 10
+      
+      alert(`¡Récord guardado, ${nombre}! Revisa el código o la consola para ver la tabla.`);
+      resetJuego();
+    });
+  });
+</script>
   <!-- ================= FOOTER ================= -->
   <footer class="border-t border-line bg-base">
     <div class="tricolor h-[3px]"></div>
