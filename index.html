@@ -226,62 +226,159 @@
       </div>
     </div>
   </section>
-          <!-- LA CAMISETA -->
-        <div class="reveal col-span-1 sm:col-span-2 bg-panel p-7 border-t-2 border-verde flex flex-col sm:flex-row items-center gap-6 mt-1">
-          <img src="camisetainter.jpg" alt="Camiseta Oficial Inter de KTC" class="w-40 sm:w-48 h-auto object-contain drop-shadow-2xl">
-          <div class="text-center sm:text-left">
-            <div class="label text-verde mb-2">Indumentaria Oficial</div>
-            <div class="font-display font-bold text-3xl uppercase leading-none">La armadura<br>se gana</div>
-            <p class="text-muted text-sm leading-relaxed mt-3">La nueva camiseta no se compra en una tienda. Se gana con sudor, compromiso y un año de esfuerzo. Es el símbolo máximo de pertenencia al club.</p>
+                 <!-- LA CAMISETA -->
+        <div class="reveal col-span-1 sm:col-span-2 bg-gradient-to-br from-[#131C26] to-[#0B111A] border border-line p-8 flex flex-col md:flex-row items-center gap-10 mt-1 relative overflow-hidden group">
+          <!-- Resplandor de fondo -->
+          <div class="absolute -right-20 -top-20 w-64 h-64 bg-verde/10 rounded-full blur-3xl group-hover:bg-verde/20 transition-all duration-700"></div>
+          
+          <div class="relative w-full md:w-1/3 flex justify-center shrink-0">
+            <!-- Etiqueta flotante -->
+            <div class="absolute top-0 right-0 md:-right-4 bg-rojo text-blanco font-display font-bold text-xs uppercase tracking-widest px-3 py-1 z-10 rotate-3">Edición 2026</div>
+            <img src="camisetainter.jpg" alt="Camiseta Oficial Inter de KTC" class="w-48 md:w-64 h-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] transform group-hover:scale-105 transition-transform duration-500">
+          </div>
+          
+          <div class="relative z-10 text-center md:text-left w-full md:w-2/3">
+            <div class="label text-verde mb-2 flex items-center justify-center md:justify-start gap-2">
+              <span class="w-2 h-2 bg-verde pulse"></span> Indumentaria Oficial
+            </div>
+            <h3 class="font-display font-bold text-4xl md:text-5xl uppercase leading-none text-blanco">La armadura<br><span class="text-outline">se gana</span></h3>
+            <p class="text-muted text-sm leading-relaxed mt-4 max-w-md">Esta camiseta no se compra en una tienda. Se gana con sudor, compromiso y un año de esfuerzo. Es el símbolo máximo de pertenencia al club y el orgullo de vestir los colores del Paradero 14.</p>
+            
+            <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-4">
+              <div class="border border-line px-4 py-2 bg-base/50"><span class="label text-[0.6rem] block">Diseño</span><span class="font-display font-bold text-lg">Exclusivo</span></div>
+              <div class="border border-line px-4 py-2 bg-base/50"><span class="label text-[0.6rem] block">Material</span><span class="font-display font-bold text-lg">Alta Gama</span></div>
+            </div>
           </div>
         </div>
 
-  <!-- ================= DASHBOARD ================= -->
-        <!-- ===== ANÁLISIS DERIVADO (PODER ESTADÍSTICO) ===== -->
-      <div class="reveal mt-16 mb-8 border-t border-line pt-10">
-        <div class="label text-rojo mb-3">01.b — Sport Analytics</div>
-        <h3 class="font-display font-bold uppercase text-3xl sm:text-4xl tracking-tight">El poder estadístico del plantel</h3>
+    <!-- ================= DASHBOARD ================= -->
+  <section id="datos" class="py-24 border-t border-line bg-panel/40 relative overflow-hidden">
+    <!-- Cuadrícula de fondo técnica -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMUUyQTM4IiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <div class="label text-verde mb-3">01 — Dashboard de gestión</div>
+          <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">El poder<br>en números</h2>
+        </div>
+        <p class="text-muted max-w-md text-sm leading-relaxed">Rendimiento, logística y comunidad. Tres años de gestión amateur con estándares profesionales.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-line border border-line">
-        <!-- Puntos por Partido (PPG) -->
-        <div class="reveal bg-panel p-7">
-          <div class="flex items-baseline gap-2 mb-2">
-            <span class="font-display font-extrabold text-5xl num text-verde">2.44</span>
-            <span class="label">Puntos / Partido</span>
+      <!-- MÉTRICAS PRINCIPALES (Bento Grid) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        
+        <!-- Partidos (Grande) -->
+        <div class="reveal md:col-span-4 bg-panel border border-line p-8 relative overflow-hidden group hover:border-verde transition-colors">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-verde/5 rounded-bl-full group-hover:bg-verde/10 transition-colors"></div>
+          <div class="label mb-8 flex justify-between items-center">
+            <span>Partidos Jugados</span>
+            <svg class="w-5 h-5 text-verde" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8"/></svg>
           </div>
-          <div class="font-display font-semibold uppercase text-xl mt-3">Ritmo de Campeonato</div>
-          <p class="text-muted text-sm leading-relaxed mt-2">
-            En un formato de liga (3 pts por victoria, 1 por empate), el club promedia <strong>2.44 unidades por encuentro</strong>. En torneos profesionales, un promedio superior a 2.0 es considerado de élite y suele asegurar los primeros lugares de la tabla.
-          </p>
+          <div class="font-display font-extrabold text-8xl num leading-none text-blanco">76</div>
+          <div class="mt-6 flex items-center gap-2">
+            <div class="h-1 flex-grow bg-line"><div class="h-full bg-verde w-full"></div></div>
+            <span class="label text-[0.6rem] text-verde">100%</span>
+          </div>
+          <div class="mt-2 text-xs text-muted">Registrados desde Marzo 2024 hasta Noviembre 2026.</div>
         </div>
 
-        <!-- Win Rate Puro -->
-        <div class="reveal reveal-delay-1 bg-panel p-7">
-          <div class="flex items-baseline gap-2 mb-2">
-            <span class="font-display font-extrabold text-5xl num text-blanco">78.9</span>
-            <span class="label">% Win Rate</span>
+        <!-- Rendimiento (Anillo) -->
+        <div class="reveal reveal-delay-1 md:col-span-4 bg-panel border border-line p-8 flex flex-col justify-between items-center text-center hover:border-verde transition-colors">
+          <div class="label w-full text-left">Rendimiento Global</div>
+          
+          <!-- Gráfico de Anillo CSS -->
+          <div class="relative w-40 h-40 my-6">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+              <path class="text-line" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+              <path class="text-verde" stroke-dasharray="78.9, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="font-display font-extrabold text-4xl num text-blanco">78.9%</span>
+            </div>
           </div>
-          <div class="font-display font-semibold uppercase text-xl mt-3">Dominio Absoluto</div>
-          <p class="text-muted text-sm leading-relaxed mt-2">
-            De cada 10 partidos disputados, el equipo gana casi 8. Estadísticamente, un Win Rate superior al 70% indica una brecha de rendimiento significativa (performance gap) frente a los rivales de la categoría. Inter no compite: domina.
-          </p>
+          <div class="text-xs text-muted">Victorias + Empates sobre el total de partidos jugados.</div>
         </div>
 
-        <!-- Índice de Solidez (Basado en el Excel) -->
-        <div class="reveal reveal-delay-2 bg-panel p-7">
-          <div class="flex items-baseline gap-2 mb-2">
-            <span class="font-display font-extrabold text-5xl num text-rojo">4.2</span>
-            <span class="label">Goles / Partido</span>
+        <!-- Victorias (Contador) -->
+        <div class="reveal reveal-delay-2 md:col-span-4 bg-panel border border-line p-8 relative overflow-hidden group hover:border-yellow-500 transition-colors">
+          <div class="label mb-8">Victorias Totales</div>
+          <div class="flex items-baseline gap-2">
+            <div class="font-display font-extrabold text-8xl num leading-none text-yellow-500">60</div>
+            <span class="font-display font-bold text-xl text-yellow-500/50">/ 76</span>
           </div>
-          <div class="font-display font-semibold uppercase text-xl mt-3">Poder Ofensivo</div>
-          <p class="text-muted text-sm leading-relaxed mt-2">
-            Los registros de marcador muestran un promedio superior a los 4 goles anotados por encuentro. Este nivel de conversión demuestra que el sistema de juego no depende de la defensa: es un equipo diseñado para atacar y someter al rival.
-          </p>
+          <div class="mt-6 space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-muted">Tasa de victoria</span><span class="text-blanco font-bold">78.9%</span></div>
+              <div class="h-1.5 w-full bg-line"><div class="h-full bg-yellow-500" style="width: 78.9%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-muted">Puntos por partido</span><span class="text-blanco font-bold">2.44</span></div>
+              <div class="h-1.5 w-full bg-line"><div class="h-full bg-verde" style="width: 81%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Impacto Social (Ancho completo) -->
+        <div class="reveal reveal-delay-3 md:col-span-12 bg-gradient-to-r from-base to-panel border border-line p-8 flex flex-col md:flex-row items-center gap-8 hover:border-rojo transition-colors">
+          <div class="w-16 h-16 bg-rojo/10 rounded-full flex items-center justify-center shrink-0 border border-rojo/30">
+            <svg class="w-8 h-8 text-rojo" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21s-7-4.6-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.4-7 10-7 10z"/></svg>
+          </div>
+          <div class="flex-grow text-center md:text-left">
+            <div class="label text-rojo mb-1">Impacto Comunitario</div>
+            <div class="font-display font-bold text-3xl uppercase">Más que fútbol: contención social</div>
+            <p class="text-muted text-sm mt-1">El club ha generado un ecosistema de pertenencia y disciplina para los jóvenes del Paradero 14.</p>
+          </div>
+          <div class="text-center md:text-right shrink-0">
+            <div class="font-display font-extrabold text-6xl num text-rojo">+3.300</div>
+            <div class="label">Horas / Persona</div>
+          </div>
         </div>
       </div>
-      <p class="text-[0.7rem] text-muted mt-3">* Métricas calculadas en base a los registros de la planilla oficial de partidos (Mar 2024 - Nov 2026). Los puntos por partido asumen un sistema de liga estándar.</p>
 
+      <!-- ANÁLISIS ESTADÍSTICO (Sport Analytics) -->
+      <div class="reveal mt-16 mb-8 border-t border-line pt-10 flex items-center gap-4">
+        <div class="w-2 h-8 bg-verde"></div>
+        <div>
+          <div class="label text-verde">01.b — Sport Analytics</div>
+          <h3 class="font-display font-bold uppercase text-3xl sm:text-4xl tracking-tight">El poder estadístico del plantel</h3>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="reveal bg-panel border border-line p-6 relative">
+          <div class="absolute top-0 left-0 w-full h-1 bg-verde"></div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-display font-extrabold text-4xl num text-verde">2.44</span>
+            <span class="label leading-tight">Puntos<br>por partido</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-lg text-blanco border-b border-line pb-2 mb-3">Ritmo de Campeonato</div>
+          <p class="text-muted text-xs leading-relaxed">En un formato de liga (3 pts victoria, 1 empate), promediar <strong>2.44 unidades</strong> es un registro de élite. Asegura pelear los primeros puestos en cualquier tabla.</p>
+        </div>
+        
+        <div class="reveal reveal-delay-1 bg-panel border border-line p-6 relative">
+          <div class="absolute top-0 left-0 w-full h-1 bg-blanco"></div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-display font-extrabold text-4xl num text-blanco">78.9</span>
+            <span class="label leading-tight">% Win<br>Rate</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-lg text-blanco border-b border-line pb-2 mb-3">Dominio Absoluto</div>
+          <p class="text-muted text-xs leading-relaxed">De cada 10 partidos, el equipo gana casi 8. Un Win Rate superior al 70% indica una brecha de rendimiento frente a los rivales. Inter no compite: domina.</p>
+        </div>
+
+        <div class="reveal reveal-delay-2 bg-panel border border-line p-6 relative">
+          <div class="absolute top-0 left-0 w-full h-1 bg-rojo"></div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="font-display font-extrabold text-4xl num text-rojo">4.2</span>
+            <span class="label leading-tight">Goles<br>por partido</span>
+          </div>
+          <div class="font-display font-semibold uppercase text-lg text-blanco border-b border-line pb-2 mb-3">Poder Ofensivo</div>
+          <p class="text-muted text-xs leading-relaxed">Un promedio de más de 4 goles por encuentro. El sistema de juego no especula: está diseñado para atacar y someter al rival en su propio campo.</p>
+        </div>
+      </div>
+      <p class="text-[0.7rem] text-muted mt-4 text-right">* Métricas calculadas en base a registros oficiales (Mar 2024 - Nov 2026).</p>
+    </div>
+  </section>
   <!-- ================= PRÓXIMO PARTIDO + MVP ================= -->
   <section id="mvp" class="py-24 border-t border-line bg-base">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
