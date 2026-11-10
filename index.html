@@ -645,283 +645,370 @@
       </div>
     </div>
   </section>
-<!-- ================= JUEGO: TANDA DE PENALES KTC ================= -->
+<!-- ================= JUEGO: COPA DE PENALES KTC (4 ETAPAS MEJORADO) ================= -->
+<style>
+  @keyframes pk-shake { 0%,100%{transform:translate(0,0)} 20%{transform:translate(-8px,3px)} 40%{transform:translate(7px,-4px)} 60%{transform:translate(-5px,2px)} 80%{transform:translate(4px,-2px)} }
+  @keyframes pk-pop { 0%{transform:scale(.3);opacity:0} 60%{transform:scale(1.15);opacity:1} 100%{transform:scale(1);opacity:1} }
+  @keyframes pk-flash { 0%{opacity:.7} 100%{opacity:0} }
+  .pk-shake { animation: pk-shake .45s; }
+  .pk-pop { animation: pk-pop .45s cubic-bezier(.2,1.4,.4,1) both; }
+  .pk-flash { animation: pk-flash .5s ease-out forwards; }
+  .pk-zona:hover { background:rgba(0,166,81,.18); box-shadow:inset 0 0 0 2px rgba(0,166,81,.7); }
+  .pk-zona:focus-visible { outline:2px solid #fff; outline-offset:-4px; }
+  #pk-balon { box-shadow:0 4px 10px rgba(0,0,0,.6); background:radial-gradient(circle at 35% 30%,#fff 0 45%,#cfd6df 46% 100%); }
+  @media (prefers-reduced-motion:reduce) { .pk-shake,.pk-pop,.pk-flash { animation:none; } }
+</style>
+
 <section id="juego-penales" class="py-24 border-t border-line bg-base relative overflow-hidden">
-  
-  <!-- Fondo de estadio sutil -->
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00A651]/10 via-base to-base pointer-events-none"></div>
 
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    
-    <div class="text-center mb-10">
+    <div class="text-center mb-8">
       <div class="label text-rojo mb-3">Zona de Hinchas</div>
-      <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Tanda de Penales</h2>
-      <p class="text-muted mt-3 text-sm">Demuestra que tienes la sangre fría del Espartano. ¿Cuántos puedes meter?</p>
+      <h2 class="font-display font-bold uppercase text-5xl sm:text-6xl leading-[0.9] tracking-tight">Copa de Penales</h2>
+      <p class="text-muted mt-3 text-sm">Cuatro rondas, cuatro arqueros. Mete 2 de 3 para avanzar y llega a la final.</p>
     </div>
 
-    <!-- Interfaz del Juego -->
-    <div class="bg-panel border border-line p-6 sm:p-8 relative max-w-2xl mx-auto shadow-2xl">
-      
-      <!-- Marcador superior -->
-      <div class="flex justify-between items-center mb-6 border-b border-line pb-4">
+    <div id="pk-wrap" class="bg-panel border border-line p-5 sm:p-8 relative max-w-2xl mx-auto shadow-2xl">
+      <!-- Etapas -->
+      <div id="pk-etapas" class="grid grid-cols-4 gap-2 mb-5 text-center"></div>
+
+      <!-- Marcador -->
+      <div class="flex justify-between items-center mb-5 border-b border-line pb-4">
         <div class="text-center">
-          <div class="label text-muted mb-1">Goles</div>
-          <div id="penales-goles" class="font-display font-extrabold text-4xl text-verde">0</div>
+          <div class="label text-muted mb-1">Tiros</div>
+          <div id="pk-dots" class="flex gap-2 justify-center h-9 items-center"></div>
         </div>
         <div class="text-center">
-          <div class="label text-muted mb-1">Racha (Combo)</div>
-          <div id="penales-combo" class="font-display font-bold text-2xl text-muted">x1</div>
+          <div class="label text-muted mb-1">Racha</div>
+          <div id="pk-combo" class="font-display font-bold text-3xl text-muted">x1</div>
         </div>
         <div class="text-center">
           <div class="label text-muted mb-1">Puntos</div>
-          <div id="penales-puntos" class="font-display font-extrabold text-4xl text-blanco">0</div>
+          <div id="pk-puntos" class="font-display font-extrabold text-4xl text-blanco">0</div>
         </div>
       </div>
 
-      <!-- Área de tiro (El arco) -->
-      <div class="relative w-full aspect-[2/1] bg-[#0B111A] border-4 border-blanco/20 overflow-hidden" id="penales-arco">
-        <!-- Red del arco (SVG de fondo) -->
-        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px); background-size: 40px 40px;"></div>
-        
-        <!-- El Arquero -->
-        <div id="penales-arquero" class="absolute w-20 h-24 bottom-0 transition-all duration-300 ease-out flex flex-col items-center justify-end" style="left: 50%; transform: translateX(-50%);">
-          <div class="w-12 h-12 bg-rojo rounded-full mb-1 relative z-10 flex items-center justify-center text-blanco font-display font-bold">A</div>
-          <div class="w-16 h-12 bg-rojo rounded-t-lg"></div>
+      <!-- Arco -->
+      <div id="pk-arco" class="relative w-full aspect-[2/1] bg-[#0B111A] border-4 border-blanco/20 overflow-hidden">
+        <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image:linear-gradient(to right,#fff 1px,transparent 1px),linear-gradient(to bottom,#fff 1px,transparent 1px);background-size:24px 24px"></div>
+        <div class="absolute inset-x-0 bottom-0 h-[12%] bg-gradient-to-t from-[#00A651]/30 to-transparent pointer-events-none"></div>
+
+        <!-- Arquero -->
+        <div id="pk-arquero" class="absolute w-20 h-24 bottom-0 left-1/2 flex flex-col items-center justify-end" style="transform:translateX(-50%);transition:transform .35s cubic-bezier(.2,.8,.3,1)">
+          <div class="w-11 h-11 bg-rojo rounded-full mb-1 relative z-10 flex items-center justify-center text-blanco font-display font-bold">A</div>
+          <div class="relative w-16 h-12 bg-rojo rounded-t-lg">
+            <div class="absolute -left-4 top-1 w-5 h-3 bg-rojo rounded-full"></div>
+            <div class="absolute -right-4 top-1 w-5 h-3 bg-rojo rounded-full"></div>
+          </div>
         </div>
 
-        <!-- Zonas de tiro (Los 6 lugares donde se puede patear) -->
-        <div class="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-1 p-2">
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-izq"></button>
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-centro"></button>
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="arriba-der"></button>
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-izq"></button>
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-centro"></button>
-          <button class="zona-tiro border border-white/5 hover:bg-white/10 transition-colors" data-zona="abajo-der"></button>
+        <!-- Zonas -->
+        <div class="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-1 p-2 z-10">
+          <button class="pk-zona border border-white/10 transition" data-zona="arriba-izq" aria-label="Arriba izquierda"></button>
+          <button class="pk-zona border border-white/10 transition" data-zona="arriba-centro" aria-label="Arriba centro"></button>
+          <button class="pk-zona border border-white/10 transition" data-zona="arriba-der" aria-label="Arriba derecha"></button>
+          <button class="pk-zona border border-white/10 transition" data-zona="abajo-izq" aria-label="Abajo izquierda"></button>
+          <button class="pk-zona border border-white/10 transition" data-zona="abajo-centro" aria-label="Abajo centro"></button>
+          <button class="pk-zona border border-white/10 transition" data-zona="abajo-der" aria-label="Abajo derecha"></button>
         </div>
 
-        <!-- El Balón (oculto inicialmente) -->
-        <div id="penales-balon" class="absolute w-6 h-6 bg-blanco rounded-full hidden z-20 shadow-lg" style="bottom: 10%; left: 50%; transform: translateX(-50%);"></div>
-        
-        <!-- Texto de Feedback -->
-        <div id="penales-feedback" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
-          <span class="font-display font-black text-6xl uppercase tracking-widest text-blanco drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">¡GOL!</span>
+        <!-- Balón -->
+        <div id="pk-balon" class="absolute w-8 h-8 rounded-full hidden z-20" style="bottom:6%;left:50%;transform:translateX(-50%)"></div>
+
+        <!-- Flash + feedback -->
+        <div id="pk-flash" class="absolute inset-0 pointer-events-none z-30 opacity-0"></div>
+        <div id="pk-feedback" class="absolute inset-0 flex items-center justify-center pointer-events-none z-40 opacity-0"></div>
+
+        <!-- Intro de etapa -->
+        <div id="pk-intro" class="absolute inset-0 z-50 bg-base/90 flex flex-col items-center justify-center text-center px-4 hidden">
+          <div id="pk-intro-ronda" class="label text-rojo mb-2"></div>
+          <div id="pk-intro-titulo" class="font-display font-black uppercase text-5xl sm:text-6xl text-blanco"></div>
+          <div id="pk-intro-arquero" class="text-muted text-sm mt-3"></div>
         </div>
       </div>
 
-      <!-- Instrucción -->
-      <div class="text-center mt-4">
-        <p id="penales-instruccion" class="font-display font-bold text-xl uppercase tracking-wider text-verde animate-pulse">Haz clic en un ángulo para disparar</p>
+      <div class="text-center mt-4 min-h-[2rem]">
+        <p id="pk-instruccion" class="font-display font-bold text-xl uppercase tracking-wider text-verde"></p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Modal de Récord (Oculto) -->
-<div id="modal-record" class="fixed inset-0 bg-base/90 backdrop-blur-md z-[200] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+<!-- Modal final -->
+<div id="pk-modal" class="fixed inset-0 bg-base/90 backdrop-blur-md z-[200] flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
   <div class="bg-panel border border-verde p-8 max-w-md w-full mx-4 text-center shadow-[0_0_50px_rgba(0,166,81,0.3)]">
     <div class="w-16 h-16 bg-verde/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-verde">
-      <span class="text-3xl">🏆</span>
+      <span id="pk-m-emoji" class="text-3xl">🏆</span>
     </div>
-    <h3 class="font-display font-bold uppercase text-3xl text-blanco mb-2">¡Gran Tanda!</h3>
-    <p class="text-muted text-sm mb-6">Anotaste <strong id="record-goles" class="text-verde">0</strong> goles y sumaste <strong id="record-puntos" class="text-blanco">0</strong> puntos.</p>
-    
-    <form id="form-record" class="space-y-4">
-      <div>
-        <label class="label block text-left mb-1">Tu Nombre / Apodo</label>
-        <input type="text" id="record-nombre" required placeholder="Ej: El Zancudo" class="w-full bg-base border border-line p-3 text-blanco text-sm focus:border-verde outline-none">
-      </div>
-      <button type="submit" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">
-        Guardar Récord
-      </button>
+    <h3 id="pk-m-titulo" class="font-display font-bold uppercase text-3xl text-blanco mb-2"></h3>
+    <p class="text-muted text-sm mb-5">Anotaste <strong id="pk-m-goles" class="text-verde">0</strong> goles y sumaste <strong id="pk-m-puntos" class="text-blanco">0</strong> puntos.</p>
+
+    <form id="pk-form" class="space-y-3 mb-5">
+      <input type="text" id="pk-nombre" required maxlength="18" placeholder="Tu nombre o apodo" class="w-full bg-base border border-line p-3 text-blanco text-sm focus:border-verde outline-none">
+      <button type="submit" class="w-full bg-verde text-base font-display font-bold uppercase tracking-widest py-3 hover:bg-blanco transition-colors">Guardar récord</button>
     </form>
-    <button id="btn-cerrar-modal" class="mt-4 text-xs text-muted underline hover:text-blanco">Jugar de nuevo</button>
+
+    <div id="pk-ranking" class="text-left text-sm border-t border-line pt-4 mb-4 hidden"></div>
+    <button id="pk-otra" class="text-xs text-muted underline hover:text-blanco">Jugar de nuevo</button>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Elementos del DOM
-    const zonasTiro = document.querySelectorAll('.zona-tiro');
-    const arquero = document.getElementById('penales-arquero');
-    const balon = document.getElementById('penales-balon');
-    const feedback = document.getElementById('penales-feedback');
-    const textGoles = document.getElementById('penales-goles');
-    const textCombo = document.getElementById('penales-combo');
-    const textPuntos = document.getElementById('penales-puntos');
-    const instruccion = document.getElementById('penales-instruccion');
-    
-    // Modal
-    const modal = document.getElementById('modal-record');
-    const formRecord = document.getElementById('form-record');
-    const btnCerrarModal = document.getElementById('btn-cerrar-modal');
-    const recordGoles = document.getElementById('record-goles');
-    const recordPuntos = document.getElementById('record-puntos');
+(() => {
+  const $ = id => document.getElementById(id);
+  const zonas = document.querySelectorAll('.pk-zona');
+  const arco = $('pk-arco'), arquero = $('pk-arquero'), balon = $('pk-balon');
+  const feedback = $('pk-feedback'), flash = $('pk-flash'), intro = $('pk-intro');
+  const instr = $('pk-instruccion'), modal = $('pk-modal');
 
-    // Variables de estado
-    let goles = 0;
-    let puntos = 0;
-    let combo = 1;
-    let tirosTotales = 0;
-    let juegoActivo = true;
+  // Ajuste de dificultad: Bajamos un poco el % de atajada para que sea más justo.
+  const ETAPAS = [
+    { nombre: 'Octavos',   arquero: 'El Novato',  atajada: 0.18 },
+    { nombre: 'Cuartos',   arquero: 'La Pared',   atajada: 0.25 },
+    { nombre: 'Semifinal', arquero: 'El Pulpo',   atajada: 0.32 },
+    { nombre: 'Final',     arquero: 'El Gato',    atajada: 0.40 } 
+  ];
+  const TIROS = 3, NECESARIOS = 2;
+  const TODAS = ['arriba-izq','arriba-centro','arriba-der','abajo-izq','abajo-centro','abajo-der'];
 
-    // Posiciones del arquero
-    const posiciones = ['izq', 'centro', 'der'];
-    const alturas = ['arriba', 'abajo'];
+  let etapa, tiro, golesEtapa, goles, puntos, combo, resultados, activo, fin;
 
-    // Resetear juego
-    function resetJuego() {
-      goles = 0; puntos = 0; combo = 1; tirosTotales = 0; juegoActivo = true;
-      actualizarUI();
-      instruccion.textContent = "Haz clic en un ángulo para disparar";
-      instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-verde animate-pulse";
-      modal.classList.add('hidden');
-      modal.classList.remove('opacity-100');
-      zonasTiro.forEach(z => z.style.pointerEvents = 'auto');
+  const esperar = ms => new Promise(r => setTimeout(r, ms));
+  const vibrar = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+  function pintarEtapas() {
+    $('pk-etapas').innerHTML = ETAPAS.map((e, i) => {
+      const estado = i < etapa ? 'border-verde text-verde bg-verde/10' : i === etapa ? 'border-blanco text-blanco bg-white/5' : 'border-line text-muted';
+      const marca = i < etapa ? '✓ ' : '';
+      return `<div class="border ${estado} py-2 px-1 font-display font-bold uppercase text-xs sm:text-sm tracking-wide">${marca}${e.nombre}</div>`;
+    }).join('');
+  }
+
+  function pintarDots() {
+    let h = '';
+    for (let i = 0; i < TIROS; i++) {
+      const r = resultados[i];
+      const c = r === 'gol' ? 'bg-verde border-verde' : r ? 'bg-rojo border-rojo' : 'border-muted';
+      h += `<span class="w-5 h-5 rounded-full border-2 ${c}"></span>`;
     }
+    $('pk-dots').innerHTML = h;
+  }
 
-    // Actualizar interfaz
-    function actualizarUI() {
-      textGoles.textContent = goles;
-      textPuntos.textContent = puntos;
-      textCombo.textContent = `x${combo}`;
-      
-      if (combo > 1) {
-        textCombo.className = "font-display font-bold text-2xl text-yellow-500";
-      } else {
-        textCombo.className = "font-display font-bold text-2xl text-muted";
+  function pintarUI() {
+    $('pk-puntos').textContent = puntos;
+    const c = $('pk-combo');
+    c.textContent = 'x' + combo;
+    c.className = 'font-display font-bold text-3xl ' + (combo > 1 ? 'text-yellow-500' : 'text-muted');
+    pintarEtapas(); pintarDots();
+  }
+
+  function mostrarFeedback(html, ms = 1100) {
+    feedback.innerHTML = `<span class="pk-pop font-display font-black uppercase tracking-widest text-5xl sm:text-6xl drop-shadow-[0_0_14px_rgba(0,0,0,.9)]">${html}</span>`;
+    feedback.style.opacity = 1;
+    return esperar(ms).then(() => { feedback.style.opacity = 0; });
+  }
+
+  function destello(color) {
+    flash.style.background = color;
+    flash.classList.remove('pk-flash'); void flash.offsetWidth; flash.classList.add('pk-flash');
+  }
+
+  function confeti(n = 45) {
+    const cols = ['#00A651', '#ffffff', '#CE2B37', '#EAB308'];
+    for (let i = 0; i < n; i++) {
+      const p = document.createElement('i');
+      p.style.cssText = `position:absolute;z-index:45;width:6px;height:10px;left:50%;top:45%;background:${cols[i % 4]};pointer-events:none`;
+      arco.appendChild(p);
+      const dx = (Math.random() - .5) * arco.clientWidth * 1.1;
+      const dy = -60 - Math.random() * 90;
+      const a = p.animate([
+        { transform: 'translate(0,0) rotate(0)', opacity: 1 },
+        { transform: `translate(${dx * .6}px,${dy}px) rotate(${Math.random() * 360}deg)`, opacity: 1, offset: .4 },
+        { transform: `translate(${dx}px,${arco.clientHeight}px) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+      ], { duration: 1100 + Math.random() * 500, easing: 'ease-out' });
+      a.onfinish = () => p.remove();
+    }
+  }
+
+  async function introEtapa() {
+    const e = ETAPAS[etapa];
+    $('pk-intro-ronda').textContent = `Ronda ${etapa + 1} de ${ETAPAS.length}`;
+    $('pk-intro-titulo').textContent = e.nombre;
+    $('pk-intro-arquero').textContent = `Arquero rival: ${e.arquero} · Mete ${NECESARIOS} de ${TIROS}`;
+    intro.classList.remove('hidden');
+    $('pk-intro-titulo').classList.remove('pk-pop'); void intro.offsetWidth;
+    $('pk-intro-titulo').classList.add('pk-pop');
+    await esperar(1700);
+    intro.classList.add('hidden');
+  }
+
+  async function iniciarEtapa() {
+    tiro = 0; golesEtapa = 0; resultados = [];
+    pintarUI();
+    activo = false;
+    instr.textContent = '';
+    await introEtapa();
+    activo = true;
+    instr.className = 'font-display font-bold text-xl uppercase tracking-wider text-verde animate-pulse';
+    instr.textContent = 'Elige un ángulo y dispara';
+  }
+
+  function resetearEscena() {
+    balon.classList.add('hidden');
+    balon.style.transition = 'none';
+    balon.style.left = '50%'; balon.style.bottom = '6%';
+    balon.style.transform = 'translateX(-50%) scale(1)';
+    arquero.style.transform = 'translateX(-50%)';
+  }
+
+  async function disparar(zona) {
+    if (!activo || fin) return;
+    activo = false;
+    instr.className = 'font-display font-bold text-xl uppercase tracking-wider text-muted';
+    instr.textContent = '...';
+
+    const e = ETAPAS[etapa];
+    const [altura, lado] = zona.split('-');
+    const esEsquina = lado !== 'centro' && altura === 'arriba';
+
+    // Probabilidades
+    const afuera = Math.random() < (esEsquina ? 0.12 : lado !== 'centro' ? 0.04 : 0.01);
+    const pAtaja = Math.min(e.atajada + (lado === 'centro' ? 0.12 : 0), 0.7);
+    const ataja = !afuera && Math.random() < pAtaja;
+
+    let zonaArq = zona;
+    if (!ataja) {
+      const otras = TODAS.filter(z => z !== zona);
+      zonaArq = otras[Math.floor(Math.random() * otras.length)];
+    }
+    const [altA, ladoA] = zonaArq.split('-');
+
+    // Movimiento del arquero
+    const w = arco.clientWidth;
+    const dx = ladoA === 'izq' ? -w * 0.3 : ladoA === 'der' ? w * 0.3 : 0;
+    const dy = altA === 'arriba' ? -arco.clientHeight * 0.25 : 0;
+    const rot = ladoA === 'izq' ? -35 : ladoA === 'der' ? 35 : 0;
+    await esperar(250);
+    arquero.style.transform = `translateX(calc(-50% + ${dx}px)) translateY(${dy}px) rotate(${rot}deg)`;
+
+    // Movimiento del balón
+    balon.classList.remove('hidden');
+    const bx = afuera ? (lado === 'izq' ? '-6%' : '106%') : lado === 'izq' ? '17%' : lado === 'der' ? '83%' : '50%';
+    const by = afuera ? '88%' : altura === 'arriba' ? '62%' : '22%';
+    void balon.offsetWidth;
+    balon.style.transition = 'left .45s cubic-bezier(.3,.6,.4,1), bottom .45s cubic-bezier(.2,.8,.4,1), transform .45s linear';
+    balon.style.left = bx; balon.style.bottom = by;
+    balon.style.transform = 'translateX(-50%) scale(.55) rotate(540deg)';
+    await esperar(520);
+
+    tiro++;
+    if (ataja) {
+      resultados.push('fallo'); combo = 1;
+      arco.classList.remove('pk-shake'); void arco.offsetWidth; arco.classList.add('pk-shake');
+      destello('rgba(206,43,55,.5)'); vibrar([100, 50, 100]);
+      pintarUI();
+      await mostrarFeedback('<span class="text-rojo">¡Atajada!</span>');
+    } else if (afuera) {
+      resultados.push('fallo'); combo = 1;
+      destello('rgba(255,255,255,.25)'); vibrar([60, 40, 60]);
+      pintarUI();
+      await mostrarFeedback('<span class="text-blanco">¡Afuera!</span>');
+    } else {
+      resultados.push('gol'); golesEtapa++; goles++;
+      puntos += 100 * combo; combo++;
+      destello('rgba(0,166,81,.45)'); confeti(); vibrar(combo > 2 ? 50 : 30);
+      pintarUI();
+      await mostrarFeedback(combo > 3
+        ? '<span class="text-yellow-500">¡En racha!</span>'
+        : '<span class="text-verde">¡Gol!</span>');
+    }
+    resetearEscena();
+
+    // ¿Se definió la ronda?
+    const faltan = TIROS - tiro;
+    const aprobada = golesEtapa >= NECESARIOS;
+    const perdida = golesEtapa + faltan < NECESARIOS;
+
+    if (aprobada || perdida || faltan === 0) {
+      await esperar(300);
+      if (golesEtapa >= NECESARIOS) {
+        puntos += 500; pintarUI();
+        etapa++;
+        if (etapa >= ETAPAS.length) return terminar(true);
+        await mostrarFeedback('<span class="text-verde text-4xl sm:text-5xl">Ronda superada +500</span>', 1400);
+        return iniciarEtapa();
       }
+      return terminar(false);
     }
+    activo = true;
+    instr.className = 'font-display font-bold text-xl uppercase tracking-wider text-verde';
+    instr.textContent = `Tiro ${tiro + 1} de ${TIROS} · ¡Concéntrate!`;
+  }
 
-    // Lógica de tiro
-    zonasTiro.forEach(zona => {
-      zona.addEventListener('click', () => {
-        if (!juegoActivo) return;
-        
-        juegoActivo = false;
-        zonasTiro.forEach(z => z.style.pointerEvents = 'none');
-        instruccion.textContent = "Espera...";
-        instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-muted";
+  function leerRanking() {
+    try { return JSON.parse(localStorage.getItem('recordsKTC') || '[]'); } catch (e) { return []; }
+  }
+  function pintarRanking() {
+    const r = leerRanking().slice(0, 5);
+    const box = $('pk-ranking');
+    if (!r.length) { box.classList.add('hidden'); return; }
+    box.classList.remove('hidden');
+    box.innerHTML = '<div class="label text-muted mb-2">Mejores marcas</div>' + r.map((x, i) =>
+      `<div class="flex justify-between py-1 ${i === 0 ? 'text-yellow-500' : 'text-blanco'}"><span>${i + 1}. ${x.nombre}</span><span>${x.puntos} pts</span></div>`
+    ).join('');
+  }
 
-        const zonaElegida = zona.getAttribute('data-zona'); // ej: "arriba-izq"
-        const [alturaElegida, ladoElegido] = zonaElegida.split('-');
-        
-        // IA del Arquero: A mayor dificultad (más goles), más chances de adivinar
-        const probabilidadAtajada = Math.min(0.2 + (goles * 0.05), 0.6); // De 20% a 60% máximo
-        const arqueroAdivina = Math.random() < probabilidadAtajada;
-        
-        // Si adivina, se tira al mismo lado. Si no, se tira a un lado aleatorio.
-        let ladoArquero, alturaArquero;
-        if (arqueroAdivina) {
-          ladoArquero = ladoElegido;
-          alturaArquero = alturaElegida;
-        } else {
-          ladoArquero = posiciones[Math.floor(Math.random() * posiciones.length)];
-          alturaArquero = alturas[Math.floor(Math.random() * alturas.length)];
-        }
-
-        // Mover al arquero visualmente
-        const desplazamientoX = ladoArquero === 'izq' ? '-120px' : (ladoArquero === 'der' ? '120px' : '0px');
-        const desplazamientoY = alturaArquero === 'arriba' ? '-40px' : '0px';
-        arquero.style.transform = `translateX(calc(-50% + ${desplazamientoX})) translateY(${desplazamientoY})`;
-        
-        // Animar el balón hacia la zona elegida
-        balon.classList.remove('hidden');
-        const balonX = ladoElegido === 'izq' ? '10%' : (ladoElegido === 'der' ? '90%' : '50%');
-        const balonY = alturaElegida === 'arriba' ? '20%' : '60%';
-        
-        setTimeout(() => {
-          balon.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          balon.style.left = balonX;
-          balon.style.bottom = balonY;
-          balon.style.transform = 'translateX(-50%) scale(0.5)';
-        }, 50);
-
-        // Resolver el tiro después de la animación
-        setTimeout(() => {
-          tirosTotales++;
-          
-          if (arqueroAdivina) {
-            // ATAJADA
-            feedback.innerHTML = '<span class="text-rojo drop-shadow-[0_0_20px_rgba(206,43,55,0.8)]">¡ATAJADA!</span>';
-            feedback.classList.remove('opacity-0');
-            combo = 1; // Romper racha
-            if(navigator.vibrate) navigator.vibrate([100, 50, 100]); // Vibrar si es móvil
-          } else {
-            // GOL
-            feedback.innerHTML = '<span class="text-verde drop-shadow-[0_0_20px_rgba(0,166,81,0.8)]">¡GOL!</span>';
-            feedback.classList.remove('opacity-0');
-            goles++;
-            
-            // Sistema de condicionamiento operante
-            const puntosBase = 100;
-            puntos += puntosBase * combo;
-            combo++;
-            
-            if (combo >= 3) {
-              feedback.innerHTML = '<span class="text-yellow-500 text-7xl drop-shadow-[0_0_30px_rgba(212,175,55,0.8)]">¡EN RACHA!</span>';
-              if(navigator.vibrate) navigator.vibrate(50);
-            } else {
-              if(navigator.vibrate) navigator.vibrate(30);
-            }
-          }
-
-          // Limpiar feedback
-          setTimeout(() => {
-            feedback.classList.add('opacity-0');
-            balon.classList.add('hidden');
-            balon.style.transition = 'none';
-            balon.style.left = '50%';
-            balon.style.bottom = '10%';
-            balon.style.transform = 'translateX(-50%) scale(1)';
-            arquero.style.transform = 'translateX(-50%) translateY(0)'; // Volver al centro
-
-            // Condición de término (5 tiros)
-            if (tirosTotales >= 5) {
-              terminarJuego();
-            } else {
-              juegoActivo = true;
-              actualizarUI();
-              instruccion.textContent = "Siguiente tiro. ¡Concéntrate!";
-              instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-verde";
-              zonasTiro.forEach(z => z.style.pointerEvents = 'auto');
-            }
-          }, 1500);
-        }, 500);
-      });
-    });
-
-    // Terminar juego y mostrar modal
-    function terminarJuego() {
-      instruccion.textContent = "Tanda finalizada.";
-      instruccion.className = "font-display font-bold text-xl uppercase tracking-wider text-muted";
-      
-      recordGoles.textContent = goles;
-      recordPuntos.textContent = puntos;
-      
-      setTimeout(() => {
-        modal.classList.remove('hidden');
-        setTimeout(() => modal.classList.add('opacity-100'), 10);
-      }, 500);
+  async function terminar(campeon) {
+    fin = true; activo = false;
+    instr.className = 'font-display font-bold text-xl uppercase tracking-wider text-muted';
+    if (campeon) {
+      puntos += 1000; pintarUI();
+      confeti(90); await esperar(300); confeti(90);
+      await mostrarFeedback('<span class="text-yellow-500">¡Campeón!</span>', 1600);
+    } else {
+      instr.textContent = `Eliminado en ${ETAPAS[etapa].nombre}`;
+      await mostrarFeedback('<span class="text-rojo text-4xl sm:text-5xl">Eliminado</span>', 1300);
     }
+    $('pk-m-emoji').textContent = campeon ? '🏆' : '🥅';
+    $('pk-m-titulo').textContent = campeon ? '¡Campeón de la Copa!' : `Eliminado en ${ETAPAS[etapa].nombre}`;
+    $('pk-m-goles').textContent = goles;
+    $('pk-m-puntos').textContent = puntos;
+    $('pk-form').classList.remove('hidden');
+    pintarRanking();
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.classList.add('opacity-100'), 10);
+  }
 
-    // Cerrar modal y reiniciar
-    btnCerrarModal.addEventListener('click', resetJuego);
-    
-    formRecord.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const nombre = document.getElementById('record-nombre').value;
-      
-      // Guardar en LocalStorage
-      const record = { nombre, goles, puntos, fecha: new Date().toISOString() };
-      let records = JSON.parse(localStorage.getItem('recordsKTC') || '[]');
-      records.push(record);
-      records.sort((a, b) => b.puntos - a.puntos); // Ordenar por puntos
-      localStorage.setItem('recordsKTC', JSON.stringify(records.slice(0, 10))); // Top 10
-      
-      alert(`¡Récord guardado, ${nombre}! Revisa el código o la consola para ver la tabla.`);
-      resetJuego();
-    });
+  function nuevoJuego() {
+    modal.classList.add('hidden'); modal.classList.remove('opacity-100');
+    etapa = 0; goles = 0; puntos = 0; combo = 1; fin = false;
+    resetearEscena();
+    iniciarEtapa();
+  }
+
+  zonas.forEach(z => z.addEventListener('click', () => disparar(z.dataset.zona)));
+  $('pk-otra').addEventListener('click', nuevoJuego);
+
+  $('pk-form').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const nombre = $('pk-nombre').value.trim().slice(0, 18);
+    if (!nombre) return;
+    const rs = leerRanking();
+    rs.push({ nombre, goles, puntos, fecha: new Date().toISOString() });
+    rs.sort((a, b) => b.puntos - a.puntos);
+    try { localStorage.setItem('recordsKTC', JSON.stringify(rs.slice(0, 10))); } catch (e) {}
+    $('pk-form').classList.add('hidden');
+    pintarRanking();
   });
+
+  // Arranca al entrar en pantalla (para que la intro se vea)
+  let iniciado = false;
+  const obs = new IntersectionObserver(es => {
+    if (es[0].isIntersecting && !iniciado) { iniciado = true; obs.disconnect(); nuevoJuego(); }
+  }, { threshold: 0.4 });
+  obs.observe($('juego-penales'));
+})();
 </script>
   <!-- ================= FOOTER ================= -->
   <footer class="border-t border-line bg-base">
